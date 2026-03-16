@@ -1,0 +1,121 @@
+Tag,Context,Sender Frequency,Behavior Novelty,Total Score
+Supportive,Low-Stress Peer,Frequent Sender,Recently Credited,6.3
+Supportive,Low-Stress Peer,Frequent Sender,New Behavior,6.8
+Supportive,Low-Stress Peer,Occasional Sender,Recently Credited,6.5
+Supportive,Low-Stress Peer,Occasional Sender,New Behavior,7.0
+Supportive,Low-Stress Peer,Rare Sender,Recently Credited,6.7
+Supportive,Low-Stress Peer,Rare Sender,New Behavior,7.2
+Supportive,High-Stress Peer,Frequent Sender,Recently Credited,6.8
+Supportive,High-Stress Peer,Frequent Sender,New Behavior,7.3
+Supportive,High-Stress Peer,Occasional Sender,Recently Credited,7.0
+Supportive,High-Stress Peer,Occasional Sender,New Behavior,7.5
+Supportive,High-Stress Peer,Rare Sender,Recently Credited,7.2
+Supportive,High-Stress Peer,Rare Sender,New Behavior,7.7
+Supportive,Manager-to-Direct Report,Frequent Sender,Recently Credited,6.5
+Supportive,Manager-to-Direct Report,Frequent Sender,New Behavior,7.0
+Supportive,Manager-to-Direct Report,Occasional Sender,Recently Credited,6.7
+Supportive,Manager-to-Direct Report,Occasional Sender,New Behavior,7.2
+Supportive,Manager-to-Direct Report,Rare Sender,Recently Credited,6.9
+Supportive,Manager-to-Direct Report,Rare Sender,New Behavior,7.4
+Supportive,Cross-Department Recognition,Frequent Sender,Recently Credited,6.6
+Supportive,Cross-Department Recognition,Frequent Sender,New Behavior,7.1
+Supportive,Cross-Department Recognition,Occasional Sender,Recently Credited,6.8
+Supportive,Cross-Department Recognition,Occasional Sender,New Behavior,7.3
+Supportive,Cross-Department Recognition,Rare Sender,Recently Credited,7.0
+Supportive,Cross-Department Recognition,Rare Sender,New Behavior,7.5
+Inclusive,Low-Stress Peer,Frequent Sender,Recently Credited,8.55
+Inclusive,Low-Stress Peer,Frequent Sender,New Behavior,9.05
+Inclusive,Low-Stress Peer,Occasional Sender,Recently Credited,8.75
+Inclusive,Low-Stress Peer,Occasional Sender,New Behavior,9.25
+Inclusive,Low-Stress Peer,Rare Sender,Recently Credited,8.95
+Inclusive,Low-Stress Peer,Rare Sender,New Behavior,9.45
+Inclusive,High-Stress Peer,Frequent Sender,Recently Credited,9.05
+Inclusive,High-Stress Peer,Frequent Sender,New Behavior,9.55
+Inclusive,High-Stress Peer,Occasional Sender,Recently Credited,9.25
+Inclusive,High-Stress Peer,Occasional Sender,New Behavior,9.75
+Inclusive,High-Stress Peer,Rare Sender,Recently Credited,9.45
+Inclusive,High-Stress Peer,Rare Sender,New Behavior,9.95
+Inclusive,Manager-to-Direct Report,Frequent Sender,Recently Credited,8.75
+Inclusive,Manager-to-Direct Report,Frequent Sender,New Behavior,9.25
+Inclusive,Manager-to-Direct Report,Occasional Sender,Recently Credited,8.95
+Inclusive,Manager-to-Direct Report,Occasional Sender,New Behavior,9.45
+Inclusive,Manager-to-Direct Report,Rare Sender,Recently Credited,9.15
+Inclusive,Manager-to-Direct Report,Rare Sender,New Behavior,9.65
+Inclusive,Cross-Department Recognition,Frequent Sender,Recently Credited,8.85
+Inclusive,Cross-Department Recognition,Frequent Sender,New Behavior,9.35
+Inclusive,Cross-Department Recognition,Occasional Sender,Recently Credited,9.05
+Inclusive,Cross-Department Recognition,Occasional Sender,New Behavior,9.55
+Inclusive,Cross-Department Recognition,Rare Sender,Recently Credited,9.25
+Inclusive,Cross-Department Recognition,Rare Sender,New Behavior,9.75
+Uplifting,Low-Stress Peer,Frequent Sender,Recently Credited,4.55
+Uplifting,Low-Stress Peer,Frequent Sender,New Behavior,5.05
+Uplifting,Low-Stress Peer,Occasional Sender,Recently Credited,4.75
+Uplifting,Low-Stress Peer,Occasional Sender,New Behavior,5.25
+Uplifting,Low-Stress Peer,Rare Sender,Recently Credited,4.95
+Uplifting,Low-Stress Peer,Rare Sender,New Behavior,5.45
+Uplifting,High-Stress Peer,Frequent Sender,Recently Credited,5.05
+Uplifting,High-Stress Peer,Frequent Sender,New Behavior,5.55
+Uplifting,High-Stress Peer,Occasional Sender,Recently Credited,5.25
+Uplifting,High-Stress Peer,Occasional Sender,New Behavior,5.75
+Uplifting,High-Stress Peer,Rare Sender,Recently Credited,5.45
+Uplifting,High-Stress Peer,Rare Sender,New Behavior,5.95
+Uplifting,Manager-to-Direct Report,Frequent Sender,Recently Credited,4.75
+Uplifting,Manager-to-Direct Report,Frequent Sender,New Behavior,5.25
+Uplifting,Manager-to-Direct Report,Occasional Sender,Recently Credited,4.95
+Uplifting,Manager-to-Direct Report,Occasional Sender,New Behavior,5.45
+Uplifting,Manager-to-Direct Report,Rare Sender,Recently Credited,5.15
+Uplifting,Manager-to-Direct Report,Rare Sender,New Behavior,5.65
+Uplifting,Cross-Department Recognition,Frequent Sender,Recently Credited,4.85
+Uplifting,Cross-Department Recognition,Frequent Sender,New Behavior,5.35
+Uplifting,Cross-Department Recognition,Occasional Sender,Recently Credited,5.05
+Uplifting,Cross-Department Recognition,Occasional Sender,New Behavior,5.55
+Uplifting,Cross-Department Recognition,Rare Sender,Recently Credited,5.25
+Uplifting,Cross-Department Recognition,Rare Sender,New Behavior,5.75
+Empathic Response,Low-Stress Peer,Frequent Sender,Recently Credited,11.3
+Empathic Response,Low-Stress Peer,Frequent Sender,New Behavior,11.8
+Empathic Response,Low-Stress Peer,Occasional Sender,Recently Credited,11.5
+Empathic Response,Low-Stress Peer,Occasional Sender,New Behavior,12.0
+Empathic Response,Low-Stress Peer,Rare Sender,Recently Credited,11.7
+Empathic Response,Low-Stress Peer,Rare Sender,New Behavior,12.2
+Empathic Response,High-Stress Peer,Frequent Sender,Recently Credited,11.8
+Empathic Response,High-Stress Peer,Frequent Sender,New Behavior,12.3
+Empathic Response,High-Stress Peer,Occasional Sender,Recently Credited,12.0
+Empathic Response,High-Stress Peer,Occasional Sender,New Behavior,12.5
+Empathic Response,High-Stress Peer,Rare Sender,Recently Credited,12.2
+Empathic Response,High-Stress Peer,Rare Sender,New Behavior,12.7
+Empathic Response,Manager-to-Direct Report,Frequent Sender,Recently Credited,11.5
+Empathic Response,Manager-to-Direct Report,Frequent Sender,New Behavior,12.0
+Empathic Response,Manager-to-Direct Report,Occasional Sender,Recently Credited,11.7
+Empathic Response,Manager-to-Direct Report,Occasional Sender,New Behavior,12.2
+Empathic Response,Manager-to-Direct Report,Rare Sender,Recently Credited,11.9
+Empathic Response,Manager-to-Direct Report,Rare Sender,New Behavior,12.4
+Empathic Response,Cross-Department Recognition,Frequent Sender,Recently Credited,11.6
+Empathic Response,Cross-Department Recognition,Frequent Sender,New Behavior,12.1
+Empathic Response,Cross-Department Recognition,Occasional Sender,Recently Credited,11.8
+Empathic Response,Cross-Department Recognition,Occasional Sender,New Behavior,12.3
+Empathic Response,Cross-Department Recognition,Rare Sender,Recently Credited,12.0
+Empathic Response,Cross-Department Recognition,Rare Sender,New Behavior,12.5
+Behind-the-Scenes Effort,Low-Stress Peer,Frequent Sender,Recently Credited,10.14
+Behind-the-Scenes Effort,Low-Stress Peer,Frequent Sender,New Behavior,10.64
+Behind-the-Scenes Effort,Low-Stress Peer,Occasional Sender,Recently Credited,10.34
+Behind-the-Scenes Effort,Low-Stress Peer,Occasional Sender,New Behavior,10.84
+Behind-the-Scenes Effort,Low-Stress Peer,Rare Sender,Recently Credited,10.54
+Behind-the-Scenes Effort,Low-Stress Peer,Rare Sender,New Behavior,11.04
+Behind-the-Scenes Effort,High-Stress Peer,Frequent Sender,Recently Credited,10.64
+Behind-the-Scenes Effort,High-Stress Peer,Frequent Sender,New Behavior,11.14
+Behind-the-Scenes Effort,High-Stress Peer,Occasional Sender,Recently Credited,10.84
+Behind-the-Scenes Effort,High-Stress Peer,Occasional Sender,New Behavior,11.34
+Behind-the-Scenes Effort,High-Stress Peer,Rare Sender,Recently Credited,11.04
+Behind-the-Scenes Effort,High-Stress Peer,Rare Sender,New Behavior,11.54
+Behind-the-Scenes Effort,Manager-to-Direct Report,Frequent Sender,Recently Credited,10.34
+Behind-the-Scenes Effort,Manager-to-Direct Report,Frequent Sender,New Behavior,10.84
+Behind-the-Scenes Effort,Manager-to-Direct Report,Occasional Sender,Recently Credited,10.54
+Behind-the-Scenes Effort,Manager-to-Direct Report,Occasional Sender,New Behavior,11.04
+Behind-the-Scenes Effort,Manager-to-Direct Report,Rare Sender,Recently Credited,10.74
+Behind-the-Scenes Effort,Manager-to-Direct Report,Rare Sender,New Behavior,11.24
+Behind-the-Scenes Effort,Cross-Department Recognition,Frequent Sender,Recently Credited,10.44
+Behind-the-Scenes Effort,Cross-Department Recognition,Frequent Sender,New Behavior,10.94
+Behind-the-Scenes Effort,Cross-Department Recognition,Occasional Sender,Recently Credited,10.64
+Behind-the-Scenes Effort,Cross-Department Recognition,Occasional Sender,New Behavior,11.14
+Behind-the-Scenes Effort,Cross-Department Recognition,Rare Sender,Recently Credited,10.84
+Behind-the-Scenes Effort,Cross-Department Recognition,Rare Sender,New Behavior,11.34

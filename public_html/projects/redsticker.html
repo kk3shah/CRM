@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RedSticker Analytics | Dedolytics</title>
+    <meta name="description"
+        content="Power BI dashboard for retail markdown optimization, tracking $5.1M in markdowns across divisions with advanced drilldown capabilities.">
+    <link rel="stylesheet" href="../styles.css?v=2">
+    <link rel="stylesheet" href="project-styles.css">
+    <link rel="icon" type="image/jpeg" href="../assets/images/logo.jpeg">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a href="../index.html" class="nav-logo">
+                <img src="../assets/images/logo.jpeg" alt="Dedolytics" width="32" height="32"
+                    style="border-radius: 6px; filter: brightness(0.9);">
+                <span>DEDOLYTICS</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="../index.html#work">Work</a></li>
+                <li><a href="../index.html#services">Services</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+
+            <div class="nav-cta">
+                <a href="../index.html#work" class="btn btn-ghost">← Back</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Hero -->
+    <section class="project-hero">
+        <div class="project-hero-content">
+            <span class="project-category">Retail Analytics</span>
+            <h1 class="project-title">RedSticker Analytics Dashboard</h1>
+            <p class="project-subtitle">Multi-tab Power BI solution for retail markdown optimization and performance
+                tracking</p>
+
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Industry</span>
+                    <span class="meta-value">Retail & CPG</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Technology</span>
+                    <span class="meta-value">Power BI, SQL Server</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Impact</span>
+                    <span class="meta-value">$5.1M Tracked YTD</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Study Content -->
+    <main class="project-content">
+
+        <!-- Overview Section -->
+        <section class="case-section">
+            <h2>The Challenge</h2>
+            <p>A major retail organization needed comprehensive visibility into their markdown ("RedSticker") program
+                across multiple divisions, categories, and vendors. The legacy reporting system provided only monthly
+                summary data, making it impossible to identify underperforming areas or optimize markdown timing.</p>
+
+            <div class="highlight-box">
+                <h3>Key Business Questions</h3>
+                <ul>
+                    <li>How are markdowns performing vs. budget across CA-CORP and CA-FRAN divisions?</li>
+                    <li>Which vendors and brands are driving markdown variance?</li>
+                    <li>What is the RedSticker ratio trend over fiscal periods?</li>
+                    <li>Which stores and items have the highest markdown exposure?</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="case-section">
+            <h2>The Solution</h2>
+            <p>I designed and built a comprehensive 4-tab Power BI dashboard that provides executive-to-analyst
+                visibility into the entire markdown operation:</p>
+
+            <div class="dashboard-tabs">
+                <div class="tab-card">
+                    <h3>📊 Overview Tab</h3>
+                    <p>Executive-level KPIs showing $5.1M YTD vs $5.8M budget (−$690.5K variance). Includes division
+                        breakdown between CA-CORP and CA-FRAN, plus National vs Private brand analysis.</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>📈 Details Tab</h3>
+                    <p>RSM-level performance with budget vs actual trending by fiscal period. Interactive filters for
+                        Division, Department, Category, Subcategory, Vendor, and Brand.</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>🔍 Drilldowns Tab</h3>
+                    <p>Multi-dimensional analysis with stacked visualizations showing markdown composition across
+                        organizational hierarchies.</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>🏪 Top 50 Tab</h3>
+                    <p>Pareto analysis identifying the top 50 items and stores contributing to markdown volume.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Gallery -->
+        <section class="case-section">
+            <h2>Dashboard Views</h2>
+            <div class="dashboard-gallery">
+                <figure class="dashboard-figure">
+                    <img src="../assets/work/Redsticker Dashboard - Overview tab.png"
+                        alt="RedSticker Overview Dashboard" loading="lazy">
+                    <figcaption>Overview Tab: Executive KPIs and Division Performance</figcaption>
+                </figure>
+
+                <figure class="dashboard-figure">
+                    <img src="../assets/work/Redsticker Dashboard - Details tab.png" alt="RedSticker Details Dashboard"
+                        loading="lazy">
+                    <figcaption>Details Tab: RSM Performance with Budget Trending</figcaption>
+                </figure>
+
+                <figure class="dashboard-figure">
+                    <img src="../assets/work/Redsticker Dashboard - Multiple Drilldowns.png"
+                        alt="RedSticker Drilldowns Dashboard" loading="lazy">
+                    <figcaption>Drilldowns Tab: Multi-Dimensional Analysis</figcaption>
+                </figure>
+
+                <figure class="dashboard-figure">
+                    <img src="../assets/work/Redsticker Dashboard - Top 50 items and Stores.png"
+                        alt="RedSticker Top 50 Dashboard" loading="lazy">
+                    <figcaption>Top 50 Tab: Pareto Analysis of Items and Stores</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- Technical Details -->
+        <section class="case-section">
+            <h2>Technical Implementation</h2>
+
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <h4>Data Model</h4>
+                    <p>Star schema with fact tables for markdown transactions and budget targets. Dimension tables for
+                        time, product hierarchy, geography, and vendor.</p>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Key Measures</h4>
+                    <ul>
+                        <li>RedSticker Amount YTD</li>
+                        <li>Budget YTD</li>
+                        <li>Actuals vs Budget YTD</li>
+                        <li>RedSticker Total Ratio</li>
+                    </ul>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Filters & Slicers</h4>
+                    <ul>
+                        <li>Fiscal Year / Period / Week</li>
+                        <li>Division / Department</li>
+                        <li>Category / Subcategory</li>
+                        <li>Vendor / Brand</li>
+                        <li>RM / RA (Retail Manager/Analyst)</li>
+                    </ul>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Performance</h4>
+                    <p>Optimized DAX calculations with aggregation tables for sub-second refresh on 2M+ transaction
+                        rows.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h2>The Results</h2>
+
+            <div class="results-grid">
+                <div class="result-stat">
+                    <span class="stat-number">$5.1M</span>
+                    <span class="stat-label">YTD Markdown Volume</span>
+                </div>
+
+                <div class="result-stat">
+                    <span class="stat-number">$690.5K</span>
+                    <span class="stat-label">Under Budget YTD</span>
+                </div>
+
+                <div class="result-stat">
+                    <span class="stat-number">$2.41M</span>
+                    <span class="stat-label">CA-CORP Division</span>
+                </div>
+
+                <div class="result-stat">
+                    <span class="stat-number">$2.69M</span>
+                    <span class="stat-label">CA-FRAN Division</span>
+                </div>
+            </div>
+
+            <blockquote class="testimonial">
+                "The RedSticker dashboard transformed how we manage markdowns. We can now catch budget overruns at the
+                category level before they become material issues."
+            </blockquote>
+        </section>
+
+    </main>
+
+    <!-- Footer Navigation -->
+    <nav class="project-nav">
+        <a href="marketing.html" class="nav-btn prev-btn">
+            <span>← Campaign Engine</span>
+        </a>
+        <a href="replenishment.html" class="nav-btn next-btn">
+            <span>Next: Replenishment Suite →</span>
+        </a>
+    </nav>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Dedolytics. Business Intelligence. Delivered.</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox Overlay -->
+    <div class="lightbox-overlay" id="lightbox">
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <img src="" alt="" id="lightbox-img">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
+    <!-- Lightbox Script -->
+    <script>
+        (function () {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            const closeBtn = document.querySelector('.lightbox-close');
+
+            // Open lightbox on dashboard image click
+            document.querySelectorAll('.dashboard-figure img').forEach(img => {
+                img.addEventListener('click', () => {
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt;
+                    const caption = img.closest('.dashboard-figure')?.querySelector('figcaption')?.textContent;
+                    lightboxCaption.textContent = caption || '';
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            // Close lightbox
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox || e.target === closeBtn) {
+                    closeLightbox();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    closeLightbox();
+                }
+            });
+        })();
+    </script>
+
+</body>
+
+</html>

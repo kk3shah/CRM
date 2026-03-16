@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Dedolytics - Actionable Intelligence. Real Results. Premium analytics consulting: Power BI, SQL, Snowflake dashboards and data solutions.">
+  <meta name="keywords"
+    content="Business Intelligence, Power BI, SQL, Snowflake, Analytics, Dashboard, Data Visualization, Consulting">
+  <meta name="author" content="Dedolytics">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Dedolytics - Actionable Intelligence. Real Results.">
+  <meta property="og:description"
+    content="Premium analytics consulting: Power BI, SQL, Snowflake dashboards and data solutions.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="/assets-bundled/logo-B2wg1MFN.jpeg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="/assets-bundled/logo-B2wg1MFN.jpeg">
+  <link rel="apple-touch-icon" href="/assets-bundled/logo-B2wg1MFN.jpeg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <title>Dedolytics | Actionable Intelligence. Real Results.</title>
+
+  <!-- Critical inline CSS: prevents white flash (FOUC) on navigation -->
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #050505;
+      color: #e8e4dc;
+    }
+
+    body {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    body.loaded {
+      opacity: 1;
+    }
+
+    .loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #050505;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loader-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: #e8e4dc;
+    }
+
+    .loader-bar {
+      width: 120px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.08);
+      margin-top: 1.5rem;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .loader-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #8a6d2b, #c8a45e, #e8d5a3);
+      animation: loaderFill 1.2s ease-in-out forwards;
+    }
+
+    @keyframes loaderFill {
+      to {
+        width: 100%;
+      }
+    }
+
+    #three-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Bug Fixes Overrides */
+    .hero-subtitle {
+      color: #e8e4dc !important;
+      opacity: 0.8 !important;
+    }
+
+    .nav-links.open {
+      display: flex !important;
+    }
+
+    .mobile-only {
+      display: none;
+    }
+
+    @media (max-width: 1024px) {
+      .mobile-only {
+        display: block;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-dashboards {
+        display: block !important;
+        position: relative !important;
+        transform: scale(0.7);
+        transform-origin: top center;
+        margin-top: 2rem;
+        height: 250px;
+        z-index: 1;
+      }
+
+      .dashboard-float {
+        animation: dashFloat 6s ease-in-out infinite !important;
+      }
+    }
+  </style>
+  <script type="module" crossorigin src="/assets-bundled/main-BPyPXHjQ.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets-bundled/microInteractions-CxxPok3F.js">
+  <link rel="stylesheet" crossorigin href="/assets-bundled/microInteractions-iWPquNcN.css">
+</head>
+
+<body>
+  <!-- Loading Screen -->
+  <div class="loader" id="loader">
+    <div class="loader-content">
+      <div class="loader-logo">DEDOLYTICS</div>
+      <div class="loader-bar">
+        <div class="loader-bar-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Three.js Canvas (ambient particles only) -->
+  <canvas id="three-canvas"></canvas>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo" aria-label="Dedolytics Home">
+        <span>DEDOLYTICS</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#work" data-nav="work">Work</a></li>
+        <li><a href="#services" data-nav="services">Services</a></li>
+        <li><a href="#process" data-nav="process">Process</a></li>
+        <li><a href="#contact" data-nav="contact">Contact</a></li>
+        <li class="mobile-only"><a href="kindworth.html">Kindworth</a></li>
+        <span class="nav-indicator"></span>
+      </ul>
+
+      <div class="nav-cta">
+        <a href="kindworth.html" class="btn btn-ghost" data-magnetic>Kindworth</a>
+        <a href="#contact" class="btn btn-primary" data-magnetic>Get Started</a>
+      </div>
+
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section — Floating Dashboard Showcase -->
+  <section class="hero" id="hero" data-section>
+    <div class="hero-content">
+      <h1 class="hero-title" data-animate="split">DEDOLYTICS</h1>
+      <p class="hero-subtitle" data-animate="fade-up" data-delay="0.5">Actionable Intelligence. Real Results.</p>
+
+      <div class="hero-services" data-animate="fade-up" data-delay="0.8">
+        <span class="hero-tag">Power BI</span>
+        <span class="hero-tag-divider"></span>
+        <span class="hero-tag">SQL</span>
+        <span class="hero-tag-divider"></span>
+        <span class="hero-tag">Snowflake</span>
+      </div>
+
+      <div class="hero-cta" data-animate="fade-up" data-delay="1.1">
+        <a href="#work" class="btn btn-primary btn-lg" data-magnetic>
+          <span>View Our Work</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 17L17 7M17 7H7M17 7V17" />
+          </svg>
+        </a>
+        <a href="#contact" class="btn btn-outline btn-lg" data-magnetic>
+          <span>Start a Project</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Floating Dashboard Showcase -->
+    <div class="hero-dashboards" data-animate="fade" data-delay="0.3">
+      <div class="dashboard-float dashboard-float-1">
+        <img src="/assets-bundled/Redsticker%20Dashboard%20-%20Overview%20tab-DD9-8wNN.png" alt="RedSticker Analytics"
+          loading="eager">
+        <div class="dashboard-float-glow"></div>
+        <div class="dashboard-float-label">
+          <span class="dashboard-float-tag">Retail Analytics</span>
+          <span class="dashboard-float-metric">$5.1M Tracked</span>
+        </div>
+      </div>
+
+      <div class="dashboard-float dashboard-float-2">
+        <img src="/assets-bundled/Replenishment%20Dashboard-BtTBNi34.png" alt="Replenishment Suite" loading="eager">
+        <div class="dashboard-float-glow"></div>
+        <div class="dashboard-float-label">
+          <span class="dashboard-float-tag">Supply Chain</span>
+          <span class="dashboard-float-metric">96.79% CSL</span>
+        </div>
+      </div>
+
+      <div class="dashboard-float dashboard-float-3">
+        <img src="/assets-bundled/Executive%20Dashboard-ZflbRHG6.png" alt="Executive Command Center" loading="eager">
+        <div class="dashboard-float-glow"></div>
+        <div class="dashboard-float-label">
+          <span class="dashboard-float-tag">Executive Suite</span>
+          <span class="dashboard-float-metric">Real-Time KPIs</span>
+        </div>
+      </div>
+
+      <div class="dashboard-float dashboard-float-4">
+        <img src="/assets-bundled/Vendor%20Scorecard-CI50La6U.png" alt="Vendor Performance" loading="eager">
+        <div class="dashboard-float-glow"></div>
+        <div class="dashboard-float-label">
+          <span class="dashboard-float-tag">Vendor Management</span>
+          <span class="dashboard-float-metric">150+ Vendors</span>
+        </div>
+      </div>
+
+      <div class="dashboard-float dashboard-float-5">
+        <img src="/assets-bundled/Redsticker%20Dashboard%20-%20Details%20tab-D-uBo3So.png" alt="Detail Analytics"
+          loading="eager">
+        <div class="dashboard-float-glow"></div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-indicator" data-animate="fade" data-delay="1.5">
+      <span>Scroll to explore</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- Clients / Trust Bar -->
+  <section class="trust-bar" data-section>
+    <div class="container">
+      <div class="trust-stats">
+        <div class="trust-stat">
+          <span class="trust-number" data-target="127">0</span>
+          <span class="trust-suffix">+</span>
+          <span class="trust-label">Dashboards Delivered</span>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-stat">
+          <span class="trust-number" data-target="890" data-prefix="$">0</span>
+          <span class="trust-suffix">M+</span>
+          <span class="trust-label">Data Under Management</span>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-stat">
+          <span class="trust-number" data-target="98.5" data-decimals="1">0</span>
+          <span class="trust-suffix">%</span>
+          <span class="trust-label">Client Retention</span>
+        </div>
+        <div class="trust-divider"></div>
+        <div class="trust-stat">
+          <span class="trust-number" data-target="4">0</span>
+          <span class="trust-suffix">.8★</span>
+          <span class="trust-label">Average Client Rating</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work Section -->
+  <section class="section" id="work" data-section>
+    <div class="container">
+      <header class="section-header" data-animate="reveal">
+        <span class="section-label">Portfolio</span>
+        <h2 class="section-title">Our Work</h2>
+        <p class="section-subtitle">Data transformed into tangible business growth and measurable ROI</p>
+      </header>
+
+      <div class="project-grid">
+        <a href="projects/redsticker.html" class="project-card" data-tilt data-animate="card" data-delay="0">
+          <div class="project-card-image">
+            <img src="/assets-bundled/Redsticker%20Dashboard%20-%20Overview%20tab-DD9-8wNN.png"
+              alt="RedSticker Analytics Dashboard" loading="lazy">
+            <div class="project-card-light"></div>
+          </div>
+          <div class="project-card-content">
+            <span class="project-card-category">Retail Analytics</span>
+            <h3 class="project-card-title">RedSticker Analytics</h3>
+            <p class="project-card-description">4-tab Power BI solution tracking $5.1M in retail markdowns with
+              drilldown analysis across CA-CORP and CA-FRAN divisions</p>
+            <div class="project-card-stats">
+              <span class="project-card-stat">$5.1M YTD</span>
+              <span class="project-card-stat">4 Dashboards</span>
+              <span class="project-card-stat">$690K Savings</span>
+            </div>
+            <span class="project-card-cta">
+              View Case Study
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="projects/replenishment.html" class="project-card" data-tilt data-animate="card" data-delay="0.15">
+          <div class="project-card-image">
+            <img src="/assets-bundled/Replenishment%20Dashboard-BtTBNi34.png" alt="Replenishment Intelligence Suite"
+              loading="lazy">
+            <div class="project-card-light"></div>
+          </div>
+          <div class="project-card-content">
+            <span class="project-card-category">Supply Chain</span>
+            <h3 class="project-card-title">Replenishment Suite</h3>
+            <p class="project-card-description">End-to-end inventory intelligence maintaining 96.79% CSL across $88.86M
+              in active stock with allocation gap detection</p>
+            <div class="project-card-stats">
+              <span class="project-card-stat">96.79% CSL</span>
+              <span class="project-card-stat">$88.86M Stock</span>
+              <span class="project-card-stat">Real-Time</span>
+            </div>
+            <span class="project-card-cta">
+              View Case Study
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="projects/executive.html" class="project-card" data-tilt data-animate="card" data-delay="0.3">
+          <div class="project-card-image">
+            <img src="/assets-bundled/Executive%20Dashboard-ZflbRHG6.png" alt="Executive Command Center" loading="lazy">
+            <div class="project-card-light"></div>
+          </div>
+          <div class="project-card-content">
+            <span class="project-card-category">Executive Analytics</span>
+            <h3 class="project-card-title">Executive Command Center</h3>
+            <p class="project-card-description">C-suite performance visibility with automated KPI variance tracking,
+              cutting decision latency from days to hours</p>
+            <div class="project-card-stats">
+              <span class="project-card-stat">10x Faster</span>
+              <span class="project-card-stat">Auto-Refresh</span>
+              <span class="project-card-stat">Multi-Region</span>
+            </div>
+            <span class="project-card-cta">
+              View Case Study
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="projects/vendor.html" class="project-card" data-tilt data-animate="card" data-delay="0.45">
+          <div class="project-card-image">
+            <img src="/assets-bundled/Vendor%20Scorecard-CI50La6U.png" alt="Vendor Performance Suite" loading="lazy">
+            <div class="project-card-light"></div>
+          </div>
+          <div class="project-card-content">
+            <span class="project-card-category">Vendor Management</span>
+            <h3 class="project-card-title">Vendor Performance Suite</h3>
+            <p class="project-card-description">Strategic supplier scorecard with shortage analysis, fill-rate tracking,
+              and automated vendor compliance monitoring</p>
+            <div class="project-card-stats">
+              <span class="project-card-stat">150+ Vendors</span>
+              <span class="project-card-stat">Fill-Rate %</span>
+              <span class="project-card-stat">Weekly Cadence</span>
+            </div>
+            <span class="project-card-cta">
+              View Case Study
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="projects/healthcare.html" class="project-card" data-tilt data-animate="card" data-delay="0.6">
+          <div class="project-card-image">
+            <img src="/assets-bundled/healthcare-analytics-dashboard-DzNRQJlF.png" alt="Healthcare Analytics Dashboard"
+              loading="lazy">
+            <div class="project-card-light"></div>
+          </div>
+          <div class="project-card-content">
+            <span class="project-card-category">Healthcare</span>
+            <h3 class="project-card-title">Patient Outcomes Platform</h3>
+            <p class="project-card-description">Clinical analytics tracking readmission rates, patient satisfaction,
+              and department performance across a 450-bed hospital network</p>
+            <div class="project-card-stats">
+              <span class="project-card-stat">-22% Readmit</span>
+              <span class="project-card-stat">94.2% Satisfaction</span>
+              <span class="project-card-stat">$2.1M Saved</span>
+            </div>
+            <span class="project-card-cta">
+              View Case Study
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="projects/financial.html" class="project-card" data-tilt data-animate="card" data-delay="0.75">
+          <div class="project-card-image">
+            <img src="/assets-bundled/financial-risk-dashboard-WY9ZBPCp.png" alt="Financial Risk Dashboard"
+              loading="lazy">
+            <div class="project-card-light"></div>
+          </div>
+          <div class="project-card-content">
+            <span class="project-card-category">Financial Services</span>
+            <h3 class="project-card-title">Risk & Compliance Monitor</h3>
+            <p class="project-card-description">Enterprise risk dashboard correlating $42.3M portfolio exposure
+              with 97.6% compliance scoring across asset classes and regions</p>
+            <div class="project-card-stats">
+              <span class="project-card-stat">$42.3M Tracked</span>
+              <span class="project-card-stat">97.6% Compliance</span>
+              <span class="project-card-stat">Zero Findings</span>
+            </div>
+            <span class="project-card-cta">
+              View Case Study
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="projects/ecommerce.html" class="project-card" data-tilt data-animate="card" data-delay="0.9">
+          <div class="project-card-image">
+            <img src="/assets-bundled/ecommerce-journey-dashboard-DtgvGs4E.png" alt="E-Commerce Journey Dashboard"
+              loading="lazy">
+            <div class="project-card-light"></div>
+          </div>
+          <div class="project-card-content">
+            <span class="project-card-category">E-Commerce</span>
+            <h3 class="project-card-title">Customer Journey Analytics</h3>
+            <p class="project-card-description">Full-funnel conversion intelligence mapping 1.25M visits with
+              cohort retention analysis and multi-channel attribution</p>
+            <div class="project-card-stats">
+              <span class="project-card-stat">3.8% CVR</span>
+              <span class="project-card-stat">$892 CLV</span>
+              <span class="project-card-stat">+32% Lift</span>
+            </div>
+            <span class="project-card-cta">
+              View Case Study
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="projects/logistics.html" class="project-card" data-tilt data-animate="card" data-delay="1.05">
+          <div class="project-card-image">
+            <img src="/assets-bundled/logistics-fleet-dashboard-DS92Ob0z.png" alt="Fleet Intelligence Dashboard"
+              loading="lazy">
+            <div class="project-card-light"></div>
+          </div>
+          <div class="project-card-content">
+            <span class="project-card-category">Logistics</span>
+            <h3 class="project-card-title">Fleet & Route Intelligence</h3>
+            <p class="project-card-description">Real-time fleet tracking and route optimization managing 342
+              vehicles across 4 regions with IoT telematics integration</p>
+            <div class="project-card-stats">
+              <span class="project-card-stat">94.7% On-Time</span>
+              <span class="project-card-stat">342 Vehicles</span>
+              <span class="project-card-stat">-18% Fuel</span>
+            </div>
+            <span class="project-card-cta">
+              View Case Study
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="projects/workforce.html" class="project-card" data-tilt data-animate="card" data-delay="1.2">
+          <div class="project-card-image">
+            <img src="/assets-bundled/hr-workforce-dashboard-xYBkn_qe.png" alt="HR Workforce Dashboard" loading="lazy">
+            <div class="project-card-light"></div>
+          </div>
+          <div class="project-card-content">
+            <span class="project-card-category">HR & Workforce</span>
+            <h3 class="project-card-title">People Analytics Platform</h3>
+            <p class="project-card-description">Enterprise workforce intelligence tracking 2,847 employees with
+              predictive attrition modeling and DEI scorecards</p>
+            <div class="project-card-stats">
+              <span class="project-card-stat">-3.1% Attrition</span>
+              <span class="project-card-stat">2,847 Tracked</span>
+              <span class="project-card-stat">$2.4M Saved</span>
+            </div>
+            <span class="project-card-cta">
+              View Case Study
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="projects/marketing.html" class="project-card" data-tilt data-animate="card" data-delay="1.35">
+          <div class="project-card-image">
+            <img src="/assets-bundled/marketing-campaign-dashboard-dkoiYm1q.png" alt="Marketing Campaign Dashboard"
+              loading="lazy">
+            <div class="project-card-light"></div>
+          </div>
+          <div class="project-card-content">
+            <span class="project-card-category">Digital Marketing</span>
+            <h3 class="project-card-title">Campaign Performance Engine</h3>
+            <p class="project-card-description">Multi-channel marketing intelligence optimizing $2.43M ad spend
+              with 4.21x ROAS and automated budget reallocation</p>
+            <div class="project-card-stats">
+              <span class="project-card-stat">4.21x ROAS</span>
+              <span class="project-card-stat">12.8K Leads</span>
+              <span class="project-card-stat">+37% Pipeline</span>
+            </div>
+            <span class="project-card-cta">
+              View Case Study
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="section" id="services" data-section>
+    <div class="container">
+      <header class="section-header" data-animate="reveal">
+        <span class="section-label">Capabilities</span>
+        <h2 class="section-title">Services</h2>
+        <p class="section-subtitle">End-to-end analytics solutions that turn data into competitive advantage</p>
+      </header>
+
+      <div class="services-grid">
+        <article class="service-card" data-tilt data-animate="card" data-delay="0">
+          <div class="service-logo-3d">
+            <svg class="service-logo" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <rect x="6" y="28" width="10" height="14" rx="2" fill="#F2C811" opacity="0.6" />
+              <rect x="19" y="18" width="10" height="24" rx="2" fill="#F2C811" opacity="0.8" />
+              <rect x="32" y="6" width="10" height="36" rx="2" fill="#F2C811" />
+            </svg>
+          </div>
+          <h3>Power BI Development</h3>
+          <p>Unlock strategic insights with dashboards engineered for your specific business needs. We build robust data
+            models with advanced DAX and secure, scalable deployments.</p>
+          <div class="service-card-shine"></div>
+        </article>
+
+        <article class="service-card" data-tilt data-animate="card" data-delay="0.1">
+          <div class="service-logo-3d">
+            <svg class="service-logo" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="24" cy="11" rx="16" ry="7" fill="none" stroke="#4479A1" stroke-width="2.5" />
+              <path d="M8 11v26c0 3.9 7.2 7 16 7s16-3.1 16-7V11" fill="none" stroke="#4479A1" stroke-width="2.5" />
+              <ellipse cx="24" cy="24" rx="16" ry="7" fill="none" stroke="#4479A1" stroke-width="1.5" opacity="0.35" />
+              <ellipse cx="24" cy="37" rx="16" ry="7" fill="none" stroke="#4479A1" stroke-width="1.5" opacity="0.35" />
+            </svg>
+          </div>
+          <h3>SQL & Data Engineering</h3>
+          <p>Build a rock-solid data foundation with expert database design and high-performance ETL pipelines. We
+            engineer scalable warehouses that transform raw data into analytics-ready assets.</p>
+          <div class="service-card-shine"></div>
+        </article>
+
+        <article class="service-card" data-tilt data-animate="card" data-delay="0.2">
+          <div class="service-logo-3d">
+            <svg class="service-logo" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <g stroke="#29B5E8" stroke-linecap="round">
+                <line x1="24" y1="2" x2="24" y2="46" stroke-width="3" />
+                <line x1="5" y1="13" x2="43" y2="35" stroke-width="3" />
+                <line x1="5" y1="35" x2="43" y2="13" stroke-width="3" />
+                <circle cx="24" cy="24" r="3" fill="#29B5E8" />
+              </g>
+            </svg>
+          </div>
+          <h3>Snowflake Solutions</h3>
+          <p>Maximize your cloud data potential with seamless migrations and optimized warehousing architectures.
+            Lightning-fast analytics, secure data sharing, and significant cost savings.</p>
+          <div class="service-card-shine"></div>
+        </article>
+
+        <article class="service-card" data-tilt data-animate="card" data-delay="0.3">
+          <div class="service-logo-3d">
+            <svg class="service-logo" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 4L6 14v14c0 11 8 18 18 20 10-2 18-9 18-20V14L24 4z" fill="none" stroke="#c8a45e"
+                stroke-width="2.5" stroke-linejoin="round" />
+              <polyline points="15 24 22 31 34 19" fill="none" stroke="#c8a45e" stroke-width="3" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+          <h3>Data Quality & Monitoring</h3>
+          <p>Eliminate costly errors with proactive data quality frameworks and continuous monitoring. Automated
+            validation, cleansing, and governance so every decision is based on accurate data.</p>
+          <div class="service-card-shine"></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section class="section" id="process" data-section>
+    <div class="container">
+      <header class="section-header" data-animate="reveal">
+        <span class="section-label">Methodology</span>
+        <h2 class="section-title">Our Process</h2>
+        <p class="section-subtitle">From discovery to deployment — a battle-tested framework that delivers on time,
+          every time</p>
+      </header>
+
+      <div class="process-timeline" id="processTimeline">
+        <div class="process-line">
+          <div class="process-line-fill" id="processLineFill"></div>
+        </div>
+
+        <div class="process-step" data-animate="process-step" data-delay="0">
+          <div class="process-step-node"><span>01</span></div>
+          <div class="process-step-content">
+            <h4>Audit</h4>
+            <p>We assess your existing data landscape, identify pain points, and define a roadmap aligned with your
+              strategic objectives</p>
+          </div>
+        </div>
+
+        <div class="process-step" data-animate="process-step" data-delay="0.15">
+          <div class="process-step-node"><span>02</span></div>
+          <div class="process-step-content">
+            <h4>Model</h4>
+            <p>Design efficient, scalable data models and robust infrastructure that transforms disparate data into a
+              unified analytical asset</p>
+          </div>
+        </div>
+
+        <div class="process-step" data-animate="process-step" data-delay="0.3">
+          <div class="process-step-node"><span>03</span></div>
+          <div class="process-step-content">
+            <h4>Visualize</h4>
+            <p>Craft intuitive, interactive dashboards that translate complex data into clear, actionable insights for
+              every level of your organization</p>
+          </div>
+        </div>
+
+        <div class="process-step" data-animate="process-step" data-delay="0.45">
+          <div class="process-step-node"><span>04</span></div>
+          <div class="process-step-content">
+            <h4>Operate</h4>
+            <p>Deploy with automated monitoring, proactive alerts, and continuous optimization — your analytics run
+              flawlessly while we handle the rest</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Outcomes Section -->
+  <section class="section" id="outcomes" data-section>
+    <div class="container">
+      <header class="section-header" data-animate="reveal">
+        <span class="section-label">Impact</span>
+        <h2 class="section-title">Measured Impact</h2>
+        <p class="section-subtitle">Real results our clients experience after implementation</p>
+      </header>
+
+      <div class="outcomes-grid">
+        <article class="outcome-card" data-tilt data-animate="card" data-delay="0">
+          <div class="outcome-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+            </svg>
+          </div>
+          <div class="outcome-stat">
+            <span class="outcome-counter" data-target="10">0</span>
+            <span class="outcome-suffix">&times;</span>
+          </div>
+          <h4>Faster Decisions</h4>
+          <p>Real-time dashboards replace weekly spreadsheet marathons, cutting decision latency by up to 90%. Your
+            teams spot opportunities and risks in minutes, not weeks.</p>
+        </article>
+
+        <article class="outcome-card" data-tilt data-animate="card" data-delay="0.15">
+          <div class="outcome-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10" />
+              <circle cx="12" cy="12" r="6" />
+              <circle cx="12" cy="12" r="2" />
+            </svg>
+          </div>
+          <div class="outcome-stat">
+            <span class="outcome-counter" data-target="99.5" data-decimals="1">0</span>
+            <span class="outcome-suffix">%</span>
+          </div>
+          <h4>Data Accuracy</h4>
+          <p>Centralized, validated data sources eliminate the 'which number is right' problem across departments. Our
+            frameworks enforce standards that build lasting confidence in reporting.</p>
+        </article>
+
+        <article class="outcome-card" data-tilt data-animate="card" data-delay="0.3">
+          <div class="outcome-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg>
+          </div>
+          <div class="outcome-stat">
+            <span class="outcome-counter" data-target="40">0</span>
+            <span class="outcome-suffix">+ hrs</span>
+          </div>
+          <h4>Saved Monthly</h4>
+          <p>Automated pipelines and self-service analytics free your analysts from manual data pulls. Teams reclaim 40+
+            hours every month for strategic work that moves the needle.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section contact-section" id="contact" data-section>
+    <div class="container">
+      <header class="section-header" data-animate="reveal">
+        <span class="section-label">Get in Touch</span>
+        <h2 class="section-title">Let's Build Something</h2>
+        <p class="section-subtitle">Every week without proper analytics is a week of missed insights and unrealized
+          revenue</p>
+      </header>
+
+      <form class="contact-form" id="contactForm" data-animate="fade-up" data-delay="0.3">
+        <div class="form-group">
+          <input type="text" id="name" name="name" required placeholder=" ">
+          <label for="name">Your Name</label>
+          <div class="form-line"></div>
+        </div>
+
+        <div class="form-group">
+          <input type="email" id="email" name="email" required placeholder=" ">
+          <label for="email">Email Address</label>
+          <div class="form-line"></div>
+        </div>
+
+        <div class="form-group">
+          <textarea id="message" name="message" required placeholder=" "></textarea>
+          <label for="message">Tell us about your project...</label>
+          <div class="form-line"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-full" data-magnetic>
+          <span>Send Message</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" />
+          </svg>
+        </button>
+      </form>
+
+      <div class="contact-info" data-animate="fade-up" data-delay="0.5">
+        <p>Or reach out directly</p>
+        <a href="mailto:hello@dedolytics.org" data-magnetic>hello@dedolytics.org</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" data-section>
+    <div class="container">
+      <div class="footer-line"></div>
+      <div class="footer-content">
+        <p>&copy; 2026 Dedolytics. All rights reserved.</p>
+        <a href="mailto:hello@dedolytics.org">hello@dedolytics.org</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+</body>
+
+</html>

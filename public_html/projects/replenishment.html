@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replenishment Intelligence Suite | Dedolytics</title>
+    <meta name="description"
+        content="Power BI dashboard suite for supply chain inventory management, tracking $88.86M inventory with 96.79% customer service level.">
+    <link rel="stylesheet" href="../styles.css?v=2">
+    <link rel="stylesheet" href="project-styles.css">
+    <link rel="icon" type="image/jpeg" href="../assets/images/logo.jpeg">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a href="../index.html" class="nav-logo">
+                <img src="../assets/images/logo.jpeg" alt="Dedolytics" width="32" height="32"
+                    style="border-radius: 6px; filter: brightness(0.9);">
+                <span>DEDOLYTICS</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="../index.html#work">Work</a></li>
+                <li><a href="../index.html#services">Services</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+
+            <div class="nav-cta">
+                <a href="../index.html#work" class="btn btn-ghost">← Back</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Hero -->
+    <section class="project-hero">
+        <div class="project-hero-content">
+            <span class="project-category">Supply Chain Analytics</span>
+            <h1 class="project-title">Replenishment Intelligence Suite</h1>
+            <p class="project-subtitle">End-to-end inventory visibility dashboard tracking $88.86M inventory with 96.79%
+                customer service level</p>
+
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Industry</span>
+                    <span class="meta-value">Retail Supply Chain</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Technology</span>
+                    <span class="meta-value">Power BI, Snowflake</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">CSL Achievement</span>
+                    <span class="meta-value">96.79%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Study Content -->
+    <main class="project-content">
+
+        <!-- Overview Section -->
+        <section class="case-section">
+            <h2>The Challenge</h2>
+            <p>Managing inventory replenishment across hundreds of distribution centers and thousands of stores requires
+                real-time visibility into stock levels, inbound orders, and customer service metrics. The existing ERP
+                reports were too slow and lacked the granularity needed for proactive decision-making.</p>
+
+            <div class="highlight-box">
+                <h3>Key Business Questions</h3>
+                <ul>
+                    <li>What is our current Customer Service Level (CSL) across all DCs?</li>
+                    <li>How are Weeks of Supply (WOS) trending against targets?</li>
+                    <li>Which DCs have the highest shortage exposure?</li>
+                    <li>How does inventory evolve over fiscal periods?</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="case-section">
+            <h2>The Solution</h2>
+            <p>I built a comprehensive Replenishment Intelligence Suite that combines CSL performance with inventory
+                evolution analytics:</p>
+
+            <div class="dashboard-tabs">
+                <div class="tab-card">
+                    <h3>📊 Executive KPIs</h3>
+                    <p>Real-time monitoring of 18.18M units ($88.86M) with key metrics: Inbound Orders $8.79M, Outbound
+                        Shipped $13.81M, Shorts $323.94K</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>📈 CSL Tracking</h3>
+                    <p>Customer Service Level trending at 96.79% with fiscal week drill-down showing performance
+                        variance across periods</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>🏭 DC Performance</h3>
+                    <p>Distribution center breakdown with WOS (Weeks of Supply) at 18.66 average, highlighting
+                        under/overstock situations</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>📦 Inventory Mix</h3>
+                    <p>Pie chart analysis of inventory distribution by DC with evolution trends over time</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Gallery -->
+        <section class="case-section">
+            <h2>Dashboard Views</h2>
+            <div class="dashboard-gallery">
+                <figure class="dashboard-figure">
+                    <img src="../assets/work/Replenishment Dashboard.png" alt="Replenishment Dashboard" loading="lazy">
+                    <figcaption>Main Dashboard: KPIs, CSL Trending, and Inventory Mix</figcaption>
+                </figure>
+
+                <figure class="dashboard-figure">
+                    <img src="../assets/work/csl-analysis-dashboard.png" alt="CSL Analysis Dashboard" loading="lazy">
+                    <figcaption>CSL Analysis: Detailed Service Level Tracking</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- Technical Details -->
+        <section class="case-section">
+            <h2>Technical Implementation</h2>
+
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <h4>Data Architecture</h4>
+                    <p>Snowflake data warehouse with incremental ETL loading from ERP systems. Sub-minute latency for
+                        critical inventory movements.</p>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Key Metrics</h4>
+                    <ul>
+                        <li>Total Inventory Qty & $</li>
+                        <li>CSL (Customer Service Level)</li>
+                        <li>WOS (Weeks of Supply)</li>
+                        <li>Shorts $ & Units</li>
+                    </ul>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Filter Dimensions</h4>
+                    <ul>
+                        <li>Fiscal Year / Period / Week</li>
+                        <li>Vendor Code / Division</li>
+                        <li>Department / Category</li>
+                        <li>DC (Distribution Center)</li>
+                    </ul>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Visualization</h4>
+                    <p>Time-series trending with dual-axis charts for CSL/WOS correlation. Donut chart for DC inventory
+                        distribution.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="case-section">
+            <h2>The Results</h2>
+
+            <div class="results-grid">
+                <div class="result-stat">
+                    <span class="stat-number">$88.86M</span>
+                    <span class="stat-label">Inventory Tracked</span>
+                </div>
+
+                <div class="result-stat">
+                    <span class="stat-number">96.79%</span>
+                    <span class="stat-label">CSL Achievement</span>
+                </div>
+
+                <div class="result-stat">
+                    <span class="stat-number">18.66</span>
+                    <span class="stat-label">Weeks of Supply</span>
+                </div>
+
+                <div class="result-stat">
+                    <span class="stat-number">18.18M</span>
+                    <span class="stat-label">Units in Stock</span>
+                </div>
+            </div>
+
+            <blockquote class="testimonial">
+                "This dashboard gave us proactive visibility into stock-outs before they impact customers. We've
+                significantly reduced shrinkage and improved fill rates."
+            </blockquote>
+        </section>
+
+    </main>
+
+    <!-- Footer Navigation -->
+    <nav class="project-nav">
+        <a href="redsticker.html" class="nav-btn prev-btn">
+            <span>← RedSticker Analytics</span>
+        </a>
+        <a href="executive.html" class="nav-btn next-btn">
+            <span>Next: Executive Command Center →</span>
+        </a>
+    </nav>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Dedolytics. Business Intelligence. Delivered.</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox Overlay -->
+    <div class="lightbox-overlay" id="lightbox">
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <img src="" alt="" id="lightbox-img">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
+    <script>
+        (function () {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            document.querySelectorAll('.dashboard-figure img').forEach(img => {
+                img.addEventListener('click', () => {
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt;
+                    lightboxCaption.textContent = img.closest('.dashboard-figure')?.querySelector('figcaption')?.textContent || '';
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox || e.target.classList.contains('lightbox-close')) {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        })();
+    </script>
+
+</body>
+
+</html>

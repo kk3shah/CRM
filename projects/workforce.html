@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>People Analytics Platform | Dedolytics</title>
+    <meta name="description"
+        content="HR workforce analytics dashboard tracking 2,847 employees with attrition prediction, DEI metrics, and headcount planning across departments.">
+    <link rel="stylesheet" href="../styles.css?v=2">
+    <link rel="stylesheet" href="project-styles.css">
+    <link rel="icon" type="image/jpeg" href="../assets/images/logo.jpeg">
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a href="../index.html" class="nav-logo">
+                <img src="../assets/images/logo.jpeg" alt="Dedolytics" width="32" height="32"
+                    style="border-radius: 6px; filter: brightness(0.9);">
+                <span>DEDOLYTICS</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html#work">Work</a></li>
+                <li><a href="../index.html#services">Services</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="../index.html#work" class="btn btn-ghost">← Back</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="project-hero">
+        <div class="project-hero-content">
+            <span class="project-category">HR & Workforce</span>
+            <h1 class="project-title">People Analytics Platform</h1>
+            <p class="project-subtitle">Enterprise workforce intelligence tracking 2,847 employees with predictive
+                attrition modeling, DEI scorecards, and headcount planning</p>
+
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Industry</span>
+                    <span class="meta-value">Technology (SaaS)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Technology</span>
+                    <span class="meta-value">Power BI, Workday API, Python</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Attrition Reduction</span>
+                    <span class="meta-value">-3.1%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="project-content">
+        <section class="case-section">
+            <h2>The Challenge</h2>
+            <p>A 2,800-person SaaS company was experiencing 14.3% annual attrition — nearly $8M in replacement costs. HR
+                leadership had no early warning system for flight risk, DEI reporting was a quarterly manual exercise,
+                and headcount planning was disconnected from business growth targets.</p>
+
+            <div class="highlight-box">
+                <h3>Key Business Questions</h3>
+                <ul>
+                    <li>What is our real-time attrition rate by department, level, and tenure band?</li>
+                    <li>Which employees are at highest flight risk, and what are the leading indicators?</li>
+                    <li>How are we progressing against DEI targets across gender and ethnicity?</li>
+                    <li>How do hires vs. exits trend quarterly, and are we net-positive on talent?</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h2>The Solution</h2>
+            <p>We designed a People Analytics Platform connecting Workday HRIS, engagement survey data, and performance
+                management systems:</p>
+
+            <div class="dashboard-tabs">
+                <div class="tab-card">
+                    <h3>👥 Headcount Intelligence</h3>
+                    <p>Treemap view of 2,847 employees: Engineering (894/31%), Sales (641/23%), Operations (512/18%),
+                        Marketing (378/13%), Finance (222/8%).</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>📉 Attrition Analytics</h3>
+                    <p>Waterfall chart tracking hires vs. exits quarterly — Q1: +120/-95, Q2: +110/-102, Q3: +135/-110,
+                        Q4: +120/-91. YTD net: +2,847.</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>🎯 DEI Scorecard</h3>
+                    <p>Gender diversity at 47% female (target: 50%), ethnic diversity at 38% (target: 42%) with progress
+                        tracking by department and level.</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>🔮 Flight Risk Model</h3>
+                    <p>ML-powered attrition risk scoring using engagement scores, comp ratio, promotion velocity, and
+                        manager change as leading indicators.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h2>Dashboard Views</h2>
+            <div class="dashboard-gallery">
+                <figure class="dashboard-figure">
+                    <img src="../assets/work/hr-workforce-dashboard.png" alt="HR Workforce Dashboard" loading="lazy">
+                    <figcaption>People Analytics: Headcount, Hires vs Exits, DEI Scorecards</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h2>Technical Implementation</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <h4>Data Architecture</h4>
+                    <p>Workday API integration with daily delta syncs. Python ML pipeline for flight risk scoring. Azure
+                        SQL for secure PII storage with encryption at rest.</p>
+                </div>
+                <div class="tech-item">
+                    <h4>Key Metrics</h4>
+                    <ul>
+                        <li>Voluntary Attrition Rate</li>
+                        <li>Employee Net Promoter Score</li>
+                        <li>Time-to-Fill (Open Positions)</li>
+                        <li>DEI Representation %</li>
+                    </ul>
+                </div>
+                <div class="tech-item">
+                    <h4>ML Models</h4>
+                    <ul>
+                        <li>Gradient Boosted Flight Risk</li>
+                        <li>Engagement Score Prediction</li>
+                        <li>Hiring Pipeline Forecasting</li>
+                        <li>Compensation Regression</li>
+                    </ul>
+                </div>
+                <div class="tech-item">
+                    <h4>Compliance</h4>
+                    <p>GDPR & CCPA compliant with data anonymization for aggregate views, role-based access (HRBP vs.
+                        C-suite), and audit logging for all PII queries.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h2>The Results</h2>
+            <div class="results-grid">
+                <div class="result-stat">
+                    <span class="stat-number">11.2%</span>
+                    <span class="stat-label">Attrition (was 14.3%)</span>
+                </div>
+                <div class="result-stat">
+                    <span class="stat-number">2,847</span>
+                    <span class="stat-label">Employees Tracked</span>
+                </div>
+                <div class="result-stat">
+                    <span class="stat-number">$2.4M</span>
+                    <span class="stat-label">Retention Savings</span>
+                </div>
+                <div class="result-stat">
+                    <span class="stat-number">89</span>
+                    <span class="stat-label">Active Openings</span>
+                </div>
+            </div>
+
+            <blockquote class="testimonial">
+                "The flight risk model flagged 23 high-value engineers before they started interviewing. Our HRBPs
+                intervened with career development plans, and we retained 19 of them. At $150K replacement cost each,
+                that's nearly $3M saved."
+            </blockquote>
+        </section>
+    </main>
+
+    <nav class="project-nav">
+        <a href="logistics.html" class="nav-btn prev-btn"><span>← Fleet Intelligence</span></a>
+        <a href="marketing.html" class="nav-btn next-btn"><span>Next: Campaign Engine →</span></a>
+    </nav>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Dedolytics. Business Intelligence. Delivered.</p>
+        </div>
+    </footer>
+
+    <div class="lightbox-overlay" id="lightbox">
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <img src="" alt="" id="lightbox-img">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
+    <script>
+        (function () {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            document.querySelectorAll('.dashboard-figure img').forEach(img => {
+                img.addEventListener('click', () => {
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt;
+                    lightboxCaption.textContent = img.closest('.dashboard-figure')?.querySelector('figcaption')?.textContent || '';
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox || e.target.classList.contains('lightbox-close')) {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

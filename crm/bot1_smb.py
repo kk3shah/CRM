@@ -1,0 +1,663 @@
+"""
+Dedolytics GTA SMB Lead Scraper — Google Places API + Playwright Email Extraction.
+
+Primary source: Google Places Text Search API
+Email extraction: Playwright scrapes business websites for contact emails
+Fallback: Accepts free-provider emails (Gmail, Hotmail) when no custom domain email found
+
+Designed to run daily at 8:30 AM EST with a 1-hour time limit.
+"""
+
+import os
+import re
+import time
+import random
+import urllib.parse
+import requests
+import dns.resolver
+from bs4 import BeautifulSoup
+from playwright.sync_api import sync_playwright
+from dotenv import load_dotenv
+import db
+
+load_dotenv()
+
+# ─── Configuration ────────────────────────────────────────────────────────────
+PLACES_API_KEY = os.getenv("GOOGLE_PLACES_API_KEY", "")
+PLACES_URL = "https://places.googleapis.com/v1/places:searchText"
+MAX_RUN_SECONDS = 3600  # 1 hour hard limit
+
+# ─── Search Queries ───────────────────────────────────────────────────────────────
+TARGET_QUERIES = [
+    # Accounting — best performer (22% open rate, 1 reply) — expand aggressively
+    "accounting firms Toronto",
+    "accounting firms Calgary",
+    "accounting firms Vancouver",
+    "accounting firms Ottawa",
+    "accounting firms Edmonton",
+    "bookkeeping services Toronto",
+    "bookkeeping services Calgary",
+    "CPA firm Toronto",
+    "CPA firm Vancouver",
+    # Restaurants — decent open rate (9.5%) — keep but refine
+    "restaurants Toronto",
+    "restaurants Vancouver",
+    "restaurants Calgary",
+    "restaurants Ottawa",
+    # Gyms & fitness — 11% open rate
+    "gyms and fitness centers Toronto",
+    "gyms and fitness centers Vancouver",
+    "gyms and fitness centers Calgary",
+    "personal training studios Toronto",
+    "yoga studios Toronto",
+    "yoga studios Vancouver",
+    # Cleaning — operational data angle works
+    "cleaning services Toronto",
+    "cleaning services Vancouver",
+    "commercial cleaning companies Canada",
+    # Landscaping — job margin / seasonal data
+    "landscaping companies Toronto",
+    "landscaping companies Vancouver",
+    "landscaping companies Calgary",
+    # Auto repair — parts/labor margin analytics
+    "auto repair shops Toronto",
+    "auto repair shops Vancouver",
+    "auto detailing shops Canada",
+    # Plumbing / HVAC — dispatch efficiency
+    "plumbing services Toronto",
+    "HVAC companies Toronto",
+    "HVAC companies Calgary",
+    # NEW: Marketing agencies — already value data, easy ROI story
+    "digital marketing agency Toronto",
+    "digital marketing agency Vancouver",
+    "digital marketing agency Calgary",
+    "SEO agency Canada",
+    # NEW: Real estate — lead analytics, market data
+    "real estate brokerage Toronto",
+    "real estate brokerage Vancouver",
+    # NEW: Law firms — billing efficiency, client analytics
+    "law firm Toronto",
+    "law firm Vancouver",
+    "law firm Calgary",
+    # NEW: Mortgage brokers — conversion funnel analytics
+    "mortgage broker Toronto",
+    "mortgage broker Calgary",
+    # NEW: Recruitment agencies — time-to-fill, placement rate data
+    "recruitment agency Toronto",
+    "staffing agency Toronto",
+    # NEW: Financial advisors — client retention, AUM analytics
+    "financial advisor firm Toronto",
+    "financial planning firm Vancouver",
+    # PAUSED — 0 opens from 187 combined sends, revisit with new subject lines
+    # "dentist clinics Toronto",
+    # "physiotherapy clinic Toronto",
+]
+
+# ─── Email Regex & Filters ───────────────────────────────────────────────────
+EMAIL_REGEX = re.compile(r"[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}", re.IGNORECASE)
+
+JUNK_EMAIL_RE = re.compile(
+    r"\.(png|jpg|jpeg|gif|svg|webp|css|js|woff|ttf|ico)$"
+    r"|sentry\.|example\.|domain\.|schema\.|yoursite\.|youremail\."
+    r"|yourname\.|test\.|demo\.|sample\.|placeholder\."
+    r"|noreply|no-reply|donotreply|do-not-reply|unsubscribe"
+    r"|mailer-daemon|postmaster|abuse@|spam@|bounce@"
+    r"|wixpress\.com|squarespace\.com|wordpress\.com"
+    r"|john\.doe|jane\.doe",
+    re.IGNORECASE,
+)
+
+JUNK_LOCALPARTS = {
+    "youremail",
+    "yourname",
+    "example",
+    "test",
+    "demo",
+    "sample",
+    "name",
+    "email",
+    "user",
+    "noreply",
+    "no-reply",
+    "donotreply",
+}
+
+FREE_PROVIDERS = {
+    "gmail.com",
+    "hotmail.com",
+    "outlook.com",
+    "yahoo.com",
+    "yahoo.ca",
+    "live.com",
+    "icloud.com",
+    "me.com",
+    "aol.com",
+}
+
+PREFERRED_LOCALPARTS = [
+    "info",
+    "hello",
+    "contact",
+    "office",
+    "admin",
+    "reception",
+    "book",
+    "booking",
+    "appointments",
+    "enquiries",
+    "owner",
+    "manager",
+]
+
+
+# ─── Google Places API ────────────────────────────────────────────────────────
+
+
+def search_places(query: str, page_token: str = None) -> tuple[list[dict], str | None]:
+    """
+    Calls Google Places Text Search API. Returns (list of place dicts, next_page_token or None).
+    Each place dict has: name, address, phone, website, place_id.
+    """
+    headers = {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": PLACES_API_KEY,
+        "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.nationalPhoneNumber,places.websiteUri,places.id,places.rating,nextPageToken",
+    }
+    body = {"textQuery": query, "pageSize": 20}
+    if page_token:
+        body["pageToken"] = page_token
+
+    try:
+        resp = requests.post(PLACES_URL, json=body, headers=headers, timeout=15)
+        resp.raise_for_status()
+        data = resp.json()
+    except requests.RequestException as e:
+        print(f"    [-] Places API error: {e}")
+        return [], None
+
+    places = []
+    for p in data.get("places", []):
+        places.append(
+            {
+                "name": p.get("displayName", {}).get("text", "").strip(),
+                "address": p.get("formattedAddress", "").strip(),
+                "phone": p.get("nationalPhoneNumber", "").strip(),
+                "website": (p.get("websiteUri") or "").strip(),
+                "place_id": p.get("id", ""),
+                "rating": float(p.get("rating", 0.0)),
+            }
+        )
+
+    next_token = data.get("nextPageToken")
+    return places, next_token
+
+
+def fetch_all_places_for_query(query: str, max_pages: int = 3) -> list[dict]:
+    """Fetches up to 60 results (3 pages) for a single query."""
+    all_places = []
+    token = None
+
+    for page_num in range(max_pages):
+        places, token = search_places(query, page_token=token)
+        all_places.extend(places)
+
+        if not token:
+            break
+        # Google requires ~2 second wait before using nextPageToken
+        time.sleep(2)
+
+    return all_places
+
+
+# ─── Email Extraction ─────────────────────────────────────────────────────────
+
+
+def extract_emails_relaxed(html: str, site_url: str = "") -> list[str]:
+    """
+    Extracts emails from HTML. Two-tier approach:
+    1. Custom domain emails matching the website (highest quality)
+    2. Free provider emails as fallback (Gmail, Hotmail, etc.)
+
+    Returns sorted list with best emails first.
+    """
+    raw = set(EMAIL_REGEX.findall(html))
+    domain_emails = []
+    free_emails = []
+
+    for e in raw:
+        e = e.lower()
+        if JUNK_EMAIL_RE.search(e):
+            continue
+        local = e.split("@")[0]
+        if local in JUNK_LOCALPARTS:
+            continue
+
+        email_domain = e.split("@")[1]
+
+        # Tier 1: custom domain matching the website
+        if site_url and _email_matches_site(e, site_url):
+            domain_emails.append(e)
+        # Tier 2: free providers (fallback)
+        elif email_domain in FREE_PROVIDERS:
+            free_emails.append(e)
+        # Tier 3: other custom domain emails (might still be relevant)
+        elif email_domain not in FREE_PROVIDERS:
+            domain_emails.append(e)
+
+    # Sort each tier by preferred localparts
+    domain_emails.sort(key=_email_rank)
+    free_emails.sort(key=_email_rank)
+
+    # Domain emails first, free emails as fallback
+    return domain_emails + free_emails
+
+
+def _email_matches_site(email: str, site_url: str) -> bool:
+    """Check if email domain matches the website domain."""
+    try:
+        email_domain = email.split("@")[1].lower()
+        site_host = urllib.parse.urlparse(site_url).netloc.lower().replace("www.", "")
+        return (
+            email_domain == site_host
+            or site_host.endswith("." + email_domain)
+            or email_domain.endswith("." + site_host)
+        )
+    except Exception:
+        return False
+
+
+def _email_rank(email: str) -> int:
+    """Rank emails by preferred local parts (lower = better)."""
+    local = email.split("@")[0]
+    for i, p in enumerate(PREFERRED_LOCALPARTS):
+        if local == p or local.startswith(p):
+            return i
+    return len(PREFERRED_LOCALPARTS)
+
+
+def verify_mx(email: str) -> bool:
+    """Verify MX records exist for the email domain."""
+    domain = email.split("@")[-1]
+    try:
+        records = dns.resolver.resolve(domain, "MX", lifetime=8)
+        return len(records) > 0
+    except Exception:
+        return False
+
+
+# ─── Website Scraping with Playwright ─────────────────────────────────────────
+
+
+def _extract_business_description(soup: BeautifulSoup) -> str:
+    """
+    Pulls a short business description from the website HTML.
+    Tries meta description, og:description, then first meaningful paragraph.
+    Returns a cleaned string (max 300 chars) or empty string.
+    """
+    # Priority 1: meta description
+    meta_desc = soup.find("meta", attrs={"name": "description"})
+    if meta_desc and meta_desc.get("content", "").strip():
+        desc = meta_desc["content"].strip()
+        if len(desc) > 20:
+            return desc[:300]
+
+    # Priority 2: og:description
+    og_desc = soup.find("meta", property="og:description")
+    if og_desc and og_desc.get("content", "").strip():
+        desc = og_desc["content"].strip()
+        if len(desc) > 20:
+            return desc[:300]
+
+    # Priority 3: First substantial <p> tag (skip navs, footers, etc.)
+    for p in soup.find_all("p"):
+        text = p.get_text(strip=True)
+        if len(text) > 40 and not any(
+            kw in text.lower() for kw in ["cookie", "privacy", "\u00a9", "copyright", "all rights"]
+        ):
+            return text[:300]
+
+    # Priority 4: h1 + h2 as a rough tagline
+    parts = []
+    h1 = soup.find("h1")
+    if h1 and h1.get_text(strip=True):
+        parts.append(h1.get_text(strip=True))
+    h2 = soup.find("h2")
+    if h2 and h2.get_text(strip=True):
+        parts.append(h2.get_text(strip=True))
+    if parts:
+        return " \u2014 ".join(parts)[:300]
+
+    return ""
+
+
+def _enrich_website(html: str, soup: BeautifulSoup) -> dict:
+    """Enriches the website data with ecommerce, pixels, and product estimates."""
+    enrichment = {
+        "ecommerce_platform": None,
+        "ad_pixels_detected": "no",
+        "email_capture_detected": "no",
+        "product_count_estimate": 0,
+        "ecommerce_detected": False,
+        "business_model": "local_service",
+    }
+
+    html_lower = html.lower()
+
+    if "window.shopify" in html_lower or "cdn.shopify.com" in html_lower:
+        enrichment["ecommerce_platform"] = "Shopify"
+    elif "woocommerce" in html_lower or "wp-content/plugins/woocommerce" in html_lower:
+        enrichment["ecommerce_platform"] = "WooCommerce"
+    elif "bigcommerce" in html_lower:
+        enrichment["ecommerce_platform"] = "BigCommerce"
+    elif "magento" in html_lower:
+        enrichment["ecommerce_platform"] = "Magento"
+    elif "squarespace.com" in html_lower:
+        enrichment["ecommerce_platform"] = "Squarespace"
+
+    if (
+        enrichment["ecommerce_platform"]
+        or "/products" in html_lower
+        or "/collections" in html_lower
+        or "add to cart" in html_lower
+        or "add-to-cart" in html_lower
+    ):
+        enrichment["ecommerce_detected"] = True
+        enrichment["business_model"] = "ecommerce"
+
+    if (
+        "fbq(" in html_lower
+        or "googletagmanager.com" in html_lower
+        or "tiktok.com" in html_lower
+        or "connect.facebook.net" in html_lower
+    ):
+        enrichment["ad_pixels_detected"] = "yes"
+
+    if "klaviyo" in html_lower or "mailchimp" in html_lower or "omnisend" in html_lower or "privy" in html_lower:
+        enrichment["email_capture_detected"] = "yes"
+
+    product_links = set()
+    for a in soup.find_all("a", href=True):
+        href = a["href"].lower()
+        if "/product/" in href or "/products/" in href or "/item/" in href or "/p/" in href:
+            product_links.add(href)
+
+    count = len(product_links)
+    if count > 0:
+        enrichment["product_count_estimate"] = count * 3
+    else:
+        if "/collections" in html_lower:
+            enrichment["product_count_estimate"] = 15
+        else:
+            enrichment["product_count_estimate"] = 0
+
+    return enrichment
+
+
+def scrape_website_for_email_and_description(page, base_url: str, max_retries: int = 0) -> tuple[list[str], str, dict]:
+    """
+    Scrapes a business website for email addresses, business description, and website enrichment signals.
+    Tries homepage first, then common contact page slugs.
+    Returns (emails_list, business_description, enrichment_dict).
+    """
+    slugs = ["", "/contact", "/about"]
+    best_description = ""
+    best_enrichment = None
+
+    for slug in slugs:
+        url = base_url.rstrip("/") + slug
+        for attempt in range(max_retries + 1):
+            try:
+                page.goto(url, wait_until="domcontentloaded", timeout=10000)
+                page.wait_for_timeout(500)
+                html = page.content()
+                soup = BeautifulSoup(html, "html.parser")
+
+                if not best_description:
+                    best_description = _extract_business_description(soup)
+
+                if not best_enrichment:
+                    best_enrichment = _enrich_website(html, soup)
+
+                emails = extract_emails_relaxed(html, base_url)
+                if emails:
+                    return emails, best_description, best_enrichment
+
+                break  # Page loaded but no emails — try next slug
+            except Exception:
+                if attempt < max_retries:
+                    time.sleep(1)
+                continue
+
+    if not best_enrichment:
+        best_enrichment = _enrich_website("", BeautifulSoup("", "html.parser"))
+
+    return [], best_description, best_enrichment
+
+
+# ─── Main Scraper ─────────────────────────────────────────────────────────────
+
+
+def scrape_gta_smbs(target_leads: int = 700) -> dict:
+    """
+    Main scraper function. Uses Google Places API to find GTA businesses,
+    then scrapes their websites for email addresses.
+
+    Returns a result dict with stats.
+    """
+    start_time = time.time()
+    print(f"\n{'='*60}")
+    print(f"  DEDOLYTICS GTA SMB SCRAPER — Google Places API")
+    print(f"  Started at {time.strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"  Target: {target_leads} new leads | Time limit: {MAX_RUN_SECONDS // 60} min")
+    print(f"{'='*60}\n")
+
+    if not PLACES_API_KEY:
+        print("[FATAL] GOOGLE_PLACES_API_KEY not set in .env. Aborting.")
+        return {"new_leads": 0, "duplicates": 0, "phone_only": 0, "errors": 0, "api_calls": 0, "elapsed_seconds": 0}
+
+    db.init_db()
+
+    # Load all existing emails for fast O(1) dedup
+    existing_emails = db.get_all_existing_emails()
+    print(f"[*] Loaded {len(existing_emails)} existing emails from DB for dedup.")
+
+    query_pairs = [(q, "Canada") for q in TARGET_QUERIES]
+    random.shuffle(query_pairs)
+
+    stats = {
+        "new_leads": 0,
+        "duplicates": 0,
+        "phone_only": 0,
+        "no_contact": 0,
+        "errors": 0,
+        "api_calls": 0,
+        "websites_scraped": 0,
+        "elapsed_seconds": 0,
+    }
+
+    browser = None
+    try:
+        # Launch Playwright once for the entire run
+        pw = sync_playwright().start()
+        browser = pw.chromium.launch(headless=True)
+        context = browser.new_context(
+            user_agent=(
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/122.0.0.0 Safari/537.36"
+            )
+        )
+        page = context.new_page()
+        page.set_default_timeout(20000)
+
+        for query_idx, (query_category, city) in enumerate(query_pairs):
+            # ── Time limit check ──
+            elapsed = time.time() - start_time
+            if elapsed >= MAX_RUN_SECONDS:
+                print(f"\n[!] Time limit reached ({MAX_RUN_SECONDS // 60} min). Stopping scraper.")
+                break
+
+            # ── Target reached check ──
+            if stats["new_leads"] >= target_leads:
+                print(f"\n[!] Target reached: {stats['new_leads']} new leads. Stopping scraper.")
+                break
+
+            query_text = query_category
+            remaining_time = MAX_RUN_SECONDS - elapsed
+            print(
+                f"\n[{query_idx + 1}/{len(query_pairs)}] '{query_text}' "
+                f"(leads: {stats['new_leads']}/{target_leads}, "
+                f"time left: {remaining_time / 60:.0f} min)"
+            )
+
+            # ── Fetch places from Google ──
+            try:
+                places = fetch_all_places_for_query(query_text, max_pages=2)
+                stats["api_calls"] += 1
+                print(f"    [~] Found {len(places)} businesses via Places API")
+            except Exception as e:
+                print(f"    [-] Places API error: {e}")
+                stats["errors"] += 1
+                continue
+
+            if not places:
+                continue
+
+            # ── Process each business ──
+            for place in places:
+                # Time check inside inner loop too
+                if time.time() - start_time >= MAX_RUN_SECONDS:
+                    break
+                if stats["new_leads"] >= target_leads:
+                    break
+
+                name = place["name"]
+                website = place["website"]
+                phone = place["phone"]
+                address = place["address"]
+
+                if not name:
+                    continue
+
+                # ── Try to find email + description ──
+                email = None
+                description = ""
+
+                if website:
+                    try:
+                        stats["websites_scraped"] += 1
+                        emails, description, enrichment = scrape_website_for_email_and_description(page, website)
+                        if emails:
+                            email = emails[0]
+                    except Exception as e:
+                        stats["errors"] += 1
+                        print(f"    [-] Scrape error for {name}: {e}")
+                        enrichment = _enrich_website("", BeautifulSoup("", "html.parser"))
+
+                # ── Lead Qualification Filter ──
+                skip_reason = None
+
+                if not email:
+                    skip_reason = "No contact email found"
+
+                # Loose negative keyword check
+                text_corpus = (name + " " + description).lower()
+                if "software" in text_corpus or "b2b ecommerce" in text_corpus:
+                    skip_reason = "Matches negative business type (software/tech)"
+
+                if skip_reason:
+                    print(f"    [-] Skipped {name}: {skip_reason}")
+                    if email:
+                        stats["duplicates"] += 1  # just to track skips that had emails
+                    else:
+                        stats["no_contact"] += 1
+                    continue
+
+                # ── Save the lead ──
+                if email:
+                    # Check dedup in memory first (faster than DB)
+                    if email in existing_emails:
+                        stats["duplicates"] += 1
+                        continue
+
+                    # Verify MX records
+                    if not verify_mx(email):
+                        print(f"    [-] MX fail: {email} ({name})")
+                        stats["errors"] += 1
+                        continue
+
+                    # Save to DB
+                    niche = query_category.split()[0].capitalize()
+                    variant = random.choice(["A", "B"])
+
+                    lead_id = db.add_smb_lead(
+                        company_name=name,
+                        category=niche,
+                        email=email,
+                        website=website,
+                        phone=phone,
+                        address=address,
+                        source="places",
+                        business_description=description,
+                        business_model=enrichment.get("business_model"),
+                        ecommerce_platform=enrichment.get("ecommerce_platform"),
+                        ad_pixels_detected=enrichment.get("ad_pixels_detected"),
+                        email_capture_detected=enrichment.get("email_capture_detected"),
+                        product_count_estimate=enrichment.get("product_count_estimate"),
+                        niche_category=niche,
+                        variant_id=variant,
+                        google_rating=place.get("rating", 0.0),
+                        campaign_mode="local",
+                    )
+
+                    if lead_id:
+                        existing_emails.add(email)  # Update in-memory set
+                        stats["new_leads"] += 1
+                        is_free = email.split("@")[1] in FREE_PROVIDERS
+                        provider_tag = " (free)" if is_free else ""
+                        desc_tag = f" | Variant: {variant} | ProdEst: {enrichment.get('product_count_estimate')} | Platform: {enrichment.get('ecommerce_platform')}"
+                        print(f"    [+] #{stats['new_leads']} {name} <{email}>{provider_tag} [{niche}]{desc_tag}")
+                    else:
+                        stats["duplicates"] += 1
+
+                elif phone:
+                    # Phone-only lead (no email found) — still valuable
+                    stats["phone_only"] += 1
+                else:
+                    stats["no_contact"] += 1
+
+            # Rate limiting between queries
+            time.sleep(1.0)
+
+    except Exception as e:
+        print(f"\n[FATAL] Scraper crashed: {e}")
+        stats["errors"] += 1
+    finally:
+        if browser:
+            try:
+                browser.close()
+                pw.stop()
+            except Exception:
+                pass
+
+    stats["elapsed_seconds"] = round(time.time() - start_time, 1)
+
+    # ── Print summary ──
+    print(f"\n{'='*60}")
+    print(f"  SCRAPER COMPLETE — {time.strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"{'='*60}")
+    print(f"  New leads saved:    {stats['new_leads']}")
+    print(f"  Duplicates skipped: {stats['duplicates']}")
+    print(f"  Phone-only (saved): {stats['phone_only']}")
+    print(f"  No contact info:    {stats['no_contact']}")
+    print(f"  Errors:             {stats['errors']}")
+    print(f"  Websites scraped:   {stats['websites_scraped']}")
+    print(f"  API calls:          {stats['api_calls']}")
+    print(f"  Elapsed time:       {stats['elapsed_seconds'] / 60:.1f} min")
+    print(f"{'='*60}\n")
+
+    return stats
+
+
+if __name__ == "__main__":
+    scrape_gta_smbs(target_leads=700)

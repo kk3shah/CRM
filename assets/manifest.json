@@ -1,0 +1,929 @@
+{
+  "brand": {
+    "name": "Dedolytics",
+    "tagline": "Business Intelligence. Delivered.",
+    "email": "hello@dedolytics.org",
+    "services": [
+      "Power BI",
+      "SQL",
+      "Snowflake"
+    ]
+  },
+  "generated_at": "2026-02-05T12:33:44.333409",
+  "items": [
+    {
+      "id": "work_001",
+      "type": "image",
+      "category": "dashboard",
+      "source": "assets/work/csl-analysis-dashboard.png",
+      "preview": "assets/previews/work_001.png",
+      "title": "Csl (customer Service Level For Replenishment In %)",
+      "tags": [
+        "Replenishment",
+        "Service Level"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 110445
+    },
+    {
+      "id": "work_002",
+      "type": "image",
+      "category": "dashboard",
+      "source": "assets/work/Dedolytics logo.jpeg",
+      "preview": "assets/previews/work_002.jpeg",
+      "title": "Dedolytics Logo",
+      "tags": [],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 85471
+    },
+    {
+      "id": "work_003",
+      "type": "image",
+      "category": "dashboard",
+      "source": "assets/work/Executive Dashboard.png",
+      "preview": "assets/previews/work_003.png",
+      "title": "Executive Dashboard",
+      "tags": [
+        "Dashboard",
+        "Executive"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 83202
+    },
+    {
+      "id": "work_004",
+      "type": "image",
+      "category": "dashboard",
+      "source": "assets/work/Outstanding PO Report.png",
+      "preview": "assets/previews/work_004.png",
+      "title": "Outstanding Po Report",
+      "tags": [
+        "Reporting",
+        "Purchase Orders"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 87928
+    },
+    {
+      "id": "work_005",
+      "type": "pbix",
+      "category": "dashboard",
+      "source": "assets/work/Recovery Chain.pbix",
+      "preview": "assets/previews/work_005.json",
+      "title": "Recovery Chain",
+      "tags": [
+        "Power BI",
+        "Power BI",
+        "Recovery",
+        "Supply Chain"
+      ],
+      "caption": "Power BI Dashboard (requires Power BI Desktop to open)",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "placeholder"
+      },
+      "size_bytes": 83068638
+    },
+    {
+      "id": "work_006",
+      "type": "image",
+      "category": "dashboard",
+      "source": "assets/work/Redsticker Dashboard - Details tab.png",
+      "preview": "assets/previews/work_006.png",
+      "title": "Redsticker Dashboard Details Tab",
+      "tags": [
+        "Dashboard",
+        "Retail Analytics"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 69388
+    },
+    {
+      "id": "work_007",
+      "type": "image",
+      "category": "dashboard",
+      "source": "assets/work/Redsticker Dashboard - Multiple Drilldowns.png",
+      "preview": "assets/previews/work_007.png",
+      "title": "Redsticker Dashboard Multiple Drilldowns",
+      "tags": [
+        "Dashboard",
+        "Retail Analytics"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 172734
+    },
+    {
+      "id": "work_008",
+      "type": "image",
+      "category": "dashboard",
+      "source": "assets/work/Redsticker Dashboard - Overview tab.png",
+      "preview": "assets/previews/work_008.png",
+      "title": "Redsticker Dashboard Overview Tab",
+      "tags": [
+        "Dashboard",
+        "Retail Analytics",
+        "Overview"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 81202
+    },
+    {
+      "id": "work_009",
+      "type": "image",
+      "category": "dashboard",
+      "source": "assets/work/Redsticker Dashboard - Top 50 items and Stores.png",
+      "preview": "assets/previews/work_009.png",
+      "title": "Redsticker Dashboard Top 50 Items And Stores",
+      "tags": [
+        "Dashboard",
+        "Retail Analytics"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 79367
+    },
+    {
+      "id": "work_010",
+      "type": "image",
+      "category": "dashboard",
+      "source": "assets/work/Replenishment Dashboard.png",
+      "preview": "assets/previews/work_010.png",
+      "title": "Replenishment Dashboard",
+      "tags": [
+        "Replenishment",
+        "Dashboard"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 194846
+    },
+    {
+      "id": "work_011",
+      "type": "image",
+      "category": "dashboard",
+      "source": "assets/work/Shorts Report.png",
+      "preview": "assets/previews/work_011.png",
+      "title": "Shorts Report",
+      "tags": [
+        "Reporting",
+        "Inventory",
+        "Purchase Orders"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 73676
+    },
+    {
+      "id": "work_012",
+      "type": "image",
+      "category": "dashboard",
+      "source": "assets/work/Vendor Scorecard.png",
+      "preview": "assets/previews/work_012.png",
+      "title": "Vendor Scorecard",
+      "tags": [
+        "Vendor",
+        "Scorecard"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 89065
+    },
+    {
+      "id": "kw_001",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Advisor Deck.pdf",
+      "preview": "assets/previews/kw_001.json",
+      "title": "Advisor Deck",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 144298
+    },
+    {
+      "id": "kw_002",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Business Updated Scoring.pdf",
+      "preview": "assets/previews/kw_002.json",
+      "title": "Business Updated Scoring",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 162993
+    },
+    {
+      "id": "kw_003",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Competitor Analysis.pdf",
+      "preview": "assets/previews/kw_003.json",
+      "title": "Competitor Analysis",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 189612
+    },
+    {
+      "id": "kw_004",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Dev and Arch.pdf",
+      "preview": "assets/previews/kw_004.json",
+      "title": "Dev And Arch",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 228077
+    },
+    {
+      "id": "kw_005",
+      "type": "image",
+      "category": "kindworth",
+      "source": "assets/kindworth/Download kindworth_logo.png",
+      "preview": "assets/previews/kw_005.png",
+      "title": "Kindworth Logo",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 1196579
+    },
+    {
+      "id": "kw_006",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/GTM Strategy.pdf",
+      "preview": "assets/previews/kw_006.json",
+      "title": "Gtm Strategy",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 272008
+    },
+    {
+      "id": "kw_007",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/IP and Legal Checklist.pdf",
+      "preview": "assets/previews/kw_007.json",
+      "title": "Ip And Legal Checklist",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 146642
+    },
+    {
+      "id": "kw_009",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Investor Deck.pdf",
+      "preview": "assets/previews/kw_009.json",
+      "title": "Investor Deck",
+      "tags": [
+        "Investor Relations",
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 161715
+    },
+    {
+      "id": "kw_010",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - Dashboard.pdf",
+      "preview": "assets/previews/kw_010.json",
+      "title": "Dashboard",
+      "tags": [
+        "Dashboard",
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 809010
+    },
+    {
+      "id": "kw_011",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - DashboardV2BurnoutRisk.pdf",
+      "preview": "assets/previews/kw_011.json",
+      "title": "Dashboardv2burnoutrisk",
+      "tags": [
+        "Dashboard",
+        "Kindworth",
+        "HR Analytics"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 311416
+    },
+    {
+      "id": "kw_012",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - DashboardV2LeadershipPipeline.pdf",
+      "preview": "assets/previews/kw_012.json",
+      "title": "Dashboardv2leadershippipeline",
+      "tags": [
+        "Dashboard",
+        "Kindworth",
+        "Leadership"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 329206
+    },
+    {
+      "id": "kw_013",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - DashboardV2NetworkAnalysis.pdf",
+      "preview": "assets/previews/kw_013.json",
+      "title": "Dashboardv2networkanalysis",
+      "tags": [
+        "Dashboard",
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 310955
+    },
+    {
+      "id": "kw_014",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - DashboardV2Overview.pdf",
+      "preview": "assets/previews/kw_014.json",
+      "title": "Dashboardv2overview",
+      "tags": [
+        "Dashboard",
+        "Kindworth",
+        "Overview"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 422141
+    },
+    {
+      "id": "kw_015",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - DashboardV2TeamHealth.pdf",
+      "preview": "assets/previews/kw_015.json",
+      "title": "Dashboardv2teamhealth",
+      "tags": [
+        "Dashboard",
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 338937
+    },
+    {
+      "id": "kw_016",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - Demo.pdf",
+      "preview": "assets/previews/kw_016.json",
+      "title": "Demo",
+      "tags": [
+        "Kindworth",
+        "Demo"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 518542
+    },
+    {
+      "id": "kw_017",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - Demov2.pdf",
+      "preview": "assets/previews/kw_017.json",
+      "title": "Demov2",
+      "tags": [
+        "Kindworth",
+        "Demo"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 1154579
+    },
+    {
+      "id": "kw_018",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - Eigenvector Analysis.pdf",
+      "preview": "assets/previews/kw_018.json",
+      "title": "Eigenvector Analysis",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 272597
+    },
+    {
+      "id": "kw_019",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - Investor Deck.pdf",
+      "preview": "assets/previews/kw_019.json",
+      "title": "Investor Deck",
+      "tags": [
+        "Kindworth",
+        "Investor Relations"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 1690715
+    },
+    {
+      "id": "kw_020",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - Investor DeckV2.pdf",
+      "preview": "assets/previews/kw_020.json",
+      "title": "Investor Deckv2",
+      "tags": [
+        "Kindworth",
+        "Investor Relations"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 3747137
+    },
+    {
+      "id": "kw_021",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - One Pager.pdf",
+      "preview": "assets/previews/kw_021.json",
+      "title": "One Pager",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 298047
+    },
+    {
+      "id": "kw_022",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - Overview Dashboard.pdf",
+      "preview": "assets/previews/kw_022.json",
+      "title": "Overview Dashboard",
+      "tags": [
+        "Dashboard",
+        "Kindworth",
+        "Overview"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 257952
+    },
+    {
+      "id": "kw_023",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Kindworth - PDE Curve.pdf",
+      "preview": "assets/previews/kw_023.json",
+      "title": "Pde Curve",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 245102
+    },
+    {
+      "id": "kw_025",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Ops.pdf",
+      "preview": "assets/previews/kw_025.json",
+      "title": "Ops",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 223884
+    },
+    {
+      "id": "kw_026",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Patent Filing Guide.pdf",
+      "preview": "assets/previews/kw_026.json",
+      "title": "Patent Filing Guide",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 143317
+    },
+    {
+      "id": "kw_027",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Pre Seed Doc.pdf",
+      "preview": "assets/previews/kw_027.json",
+      "title": "Pre Seed Doc",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 141039
+    },
+    {
+      "id": "kw_028",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Provisional Patent Draft.pdf",
+      "preview": "assets/previews/kw_028.json",
+      "title": "Provisional Patent Draft",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 204976
+    },
+    {
+      "id": "kw_029",
+      "type": "image",
+      "category": "kindworth",
+      "source": "assets/kindworth/Scoring System Diagram.png",
+      "preview": "assets/previews/kw_029.png",
+      "title": "Scoring System Diagram",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 66394
+    },
+    {
+      "id": "kw_030",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Target Analysis.pdf",
+      "preview": "assets/previews/kw_030.json",
+      "title": "Target Analysis",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 216714
+    },
+    {
+      "id": "kw_031",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Updated Scoring.pdf",
+      "preview": "assets/previews/kw_031.json",
+      "title": "Updated Scoring",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 233132
+    },
+    {
+      "id": "kw_032",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Who are we?.pdf",
+      "preview": "assets/previews/kw_032.json",
+      "title": "Who Are We?",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 127288
+    },
+    {
+      "id": "kw_033",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/Why work here?.pdf",
+      "preview": "assets/previews/kw_033.json",
+      "title": "Why Work Here?",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 130097
+    },
+    {
+      "id": "kw_034",
+      "type": "image",
+      "category": "kindworth",
+      "source": "assets/kindworth/formulas_image.png",
+      "preview": "assets/previews/kw_034.png",
+      "title": "Formulas Image",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.5,
+        "preview_method": "basic"
+      },
+      "size_bytes": 30474
+    },
+    {
+      "id": "kw_035",
+      "type": "pdf",
+      "category": "kindworth",
+      "source": "assets/kindworth/kindworth_mvp_blueprint.pdf",
+      "preview": "assets/previews/kw_035.json",
+      "title": "Kindworth Mvp Blueprint",
+      "tags": [
+        "Kindworth"
+      ],
+      "caption": "",
+      "quality": {
+        "blur_score": 0.0,
+        "preview_method": "fallback"
+      },
+      "pdf": {
+        "pages": 0,
+        "thumbs": []
+      },
+      "size_bytes": 3235
+    }
+  ]
+}

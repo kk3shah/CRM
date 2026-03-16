@@ -1,0 +1,174 @@
+/* ========================================
+   Responsive
+   ======================================== */
+@media (max-width: 1024px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-cta {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .process-timeline {
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: 0;
+  }
+
+  .process-line {
+    display: none;
+  }
+
+  .process-step {
+    text-align: left;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .process-step-node {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  /* Floating dashboards: smaller on tablets */
+  .dashboard-float {
+    opacity: 0.4;
+  }
+
+  .dashboard-float-1 {
+    width: 260px;
+    height: 170px;
+  }
+
+  .dashboard-float-2 {
+    width: 240px;
+    height: 150px;
+  }
+
+  .dashboard-float-3 {
+    width: 220px;
+    height: 140px;
+  }
+
+  .dashboard-float-4 {
+    width: 200px;
+    height: 130px;
+  }
+
+  .dashboard-float-5 {
+    display: none;
+  }
+
+  .dashboard-float-label {
+    display: none;
+  }
+
+  /* Trust bar stacks */
+  .trust-stats {
+    gap: 1rem;
+  }
+
+  .trust-divider {
+    display: none;
+  }
+
+  .trust-stat {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .trust-number {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    font-size: 15px;
+  }
+
+  .hero-title {
+    white-space: normal;
+  }
+
+  .hero-services {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .hero-tag-divider {
+    display: none;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+    width: 100%;
+    padding: 0 var(--space-lg);
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .hero-cta .btn {
+    width: 100%;
+  }
+
+  /* Hide floating dashboards on mobile */
+  .hero-dashboards {
+    display: none;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .process-step {
+    flex-basis: 100%;
+  }
+
+  .outcomes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: var(--space-2xl) 0;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: var(--space-md);
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 var(--space-md);
+  }
+
+  .hero-subtitle {
+    letter-spacing: 0.15em;
+  }
+
+  .btn-lg {
+    padding: 0.9rem 1.5rem;
+    font-size: 0.8rem;
+  }
+
+  .project-card-image {
+    height: 180px;
+  }
+}

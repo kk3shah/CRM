@@ -1,0 +1,74 @@
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; max-width: 600px; margin: 20px auto; background-color: rgb(245, 247, 250); border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; border: 1px solid rgb(220, 220, 220);">
+    <!-- Header -->
+    <div style="padding: 25px 30px; border-bottom: 1px solid rgb(220, 220, 220); background-color: white;">
+        <h2 style="margin: 0; font-size: 24px; color: rgb(34, 47, 62); font-weight: 600; text-align: center;">Custom Analytics Dashboard Concept for Ark's Landscaping</h2>
+        <p style="margin: 8px 0 0; font-size: 14px; color: rgb(100, 116, 139); text-align: center;">Snapshot from Dedolytics</p>
+    </div>
+
+    <!-- Metrics Row -->
+    <div style="display: flex; justify-content: space-around; padding: 25px 20px; gap: 15px; flex-wrap: wrap;">
+        <!-- Metric 1: Monthly Appointment Volume -->
+        <div style="flex: 1 1 30%; min-width: 160px; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); text-align: center; border: 1px solid rgb(235, 235, 235);">
+            <div style="font-size: 14px; color: rgb(100, 116, 139); margin-bottom: 8px;">Monthly Appointment Volume</div>
+            <div style="font-size: 32px; font-weight: 700; color: rgb(34, 47, 62); margin-bottom: 5px;">78</div>
+            <div style="font-size: 13px; color: rgb(46, 204, 113); font-weight: 600;"><span style="display: inline-block; transform: rotate(-45deg); margin-right: 3px;">&#x25B2;</span> 12.5% vs. Last Month</div>
+        </div>
+
+        <!-- Metric 2: Customer Retention -->
+        <div style="flex: 1 1 30%; min-width: 160px; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); text-align: center; border: 1px solid rgb(235, 235, 235);">
+            <div style="font-size: 14px; color: rgb(100, 116, 139); margin-bottom: 8px;">Customer Retention Rate</div>
+            <div style="font-size: 32px; font-weight: 700; color: rgb(34, 47, 62); margin-bottom: 5px;">88%</div>
+            <div style="font-size: 13px; color: rgb(46, 204, 113); font-weight: 600;"><span style="display: inline-block; transform: rotate(-45deg); margin-right: 3px;">&#x25B2;</span> 2.1% vs. Last Quarter</div>
+        </div>
+
+        <!-- Metric 3: LTV (Lifetime Value) -->
+        <div style="flex: 1 1 30%; min-width: 160px; background-color: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); text-align: center; border: 1px solid rgb(235, 235, 235);">
+            <div style="font-size: 14px; color: rgb(100, 116, 139); margin-bottom: 8px;">Average Customer LTV</div>
+            <div style="font-size: 32px; font-weight: 700; color: rgb(34, 47, 62); margin-bottom: 5px;">$1,850</div>
+            <div style="font-size: 13px; color: rgb(231, 76, 60); font-weight: 600;"><span style="display: inline-block; transform: rotate(45deg); margin-right: 3px;">&#x25BC;</span> 1.5% vs. Last Year</div>
+        </div>
+    </div>
+
+    <!-- Visual: Simulated CSS Bar Chart -->
+    <div style="padding: 25px 30px; background-color: white; border-top: 1px solid rgb(220, 220, 220); margin-top: 15px;">
+        <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 20px; color: rgb(34, 47, 62); font-weight: 600; text-align: center;">Revenue Growth by Service Category (Q4)</h3>
+        <div style="display: flex; align-items: flex-end; justify-content: space-around; height: 180px; padding-bottom: 10px; border-bottom: 1px solid rgb(220, 220, 220); position: relative;">
+            <!-- Y-axis scale (simple indicators) -->
+            <div style="position: absolute; left: -30px; top: 0px; font-size: 11px; color: rgb(150, 150, 150);">Max</div>
+            <div style="position: absolute; left: -30px; top: calc(50% - 6px); font-size: 11px; color: rgb(150, 150, 150);">Mid</div>
+            <div style="position: absolute; left: -30px; bottom: 0px; font-size: 11px; color: rgb(150, 150, 150);">Min</div>
+
+            <!-- Bar 1: Lawn Care -->
+            <div style="width: 20%; background-color: rgb(52, 152, 219); height: 85%; margin: 0 1%; border-radius: 4px 4px 0 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; position: relative;">
+                <div style="font-size: 12px; color: rgb(255,255,255,0.9); font-weight: 600; position: absolute; top: -20px;">$12.5K</div>
+                <div style="font-size: 13px; color: white; font-weight: 500; padding: 5px 0;">Lawn Care</div>
+            </div>
+            <!-- Bar 2: Interlocking -->
+            <div style="width: 20%; background-color: rgb(52, 152, 219); height: 95%; margin: 0 1%; border-radius: 4px 4px 0 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; position: relative;">
+                <div style="font-size: 12px; color: rgb(255,255,255,0.9); font-weight: 600; position: absolute; top: -20px;">$14K</div>
+                <div style="font-size: 13px; color: white; font-weight: 500; padding: 5px 0;">Interlocking</div>
+            </div>
+            <!-- Bar 3: Landscape Design -->
+            <div style="width: 20%; background-color: rgb(52, 152, 219); height: 60%; margin: 0 1%; border-radius: 4px 4px 0 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; position: relative;">
+                <div style="font-size: 12px; color: rgb(255,255,255,0.9); font-weight: 600; position: absolute; top: -20px;">$9K</div>
+                <div style="font-size: 13px; color: white; font-weight: 500; padding: 5px 0;">Design</div>
+            </div>
+            <!-- Bar 4: Sod Installation -->
+            <div style="width: 20%; background-color: rgb(52, 152, 219); height: 75%; margin: 0 1%; border-radius: 4px 4px 0 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; position: relative;">
+                <div style="font-size: 12px; color: rgb(255,255,255,0.9); font-weight: 600; position: absolute; top: -20px;">$11K</div>
+                <div style="font-size: 13px; color: white; font-weight: 500; padding: 5px 0;">Sod</div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer/CTA -->
+    <div style="padding: 25px 30px; background-color: rgb(230, 235, 240); border-top: 1px solid rgb(220, 220, 220); text-align: center;">
+        <p style="margin: 0 0 15px; font-size: 16px; color: rgb(34, 47, 62);">Want to see your real numbers like this? Book a free data consultation.</p>
+        <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2HePxAUUQzDdORvH9M7ZxCnczzZHTq6w_Ubpjy2STAQTLqYfAgCC9bqNidQSiguEqe1_1kJ_lx" style="display: inline-block; background-color: rgb(52, 152, 219); color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px; box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);">Book Consultation</a>
+    </div>
+</div>
+<div style="width:100%;max-width:600px;margin:30px auto 0;padding:20px 0;border-top:1px solid #e0e0e0;text-align:center;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <a href="https://www.dedolytics.org" style="display:inline-block;padding:12px 28px;background-color:#111111;color:#ffffff;text-decoration:none;font-weight:600;border-radius:6px;font-size:14px;letter-spacing:0.5px;">Visit Dedolytics &rarr;</a>
+  <p style="color:#999999;font-size:12px;margin-top:14px;">&copy; 2026 Dedolytics &mdash; Data &amp; AI for Growing Businesses</p>
+</div>

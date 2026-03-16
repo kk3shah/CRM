@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kindworth | Culture, Quantified</title>
+
+    <!-- Critical inline CSS: prevents white flash (FOUC) on navigation -->
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            background: #050505;
+            color: #e8e4dc;
+        }
+
+        body {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+    </style>
+    <meta name="description"
+        content="Kindworth - Culture, Quantified. A culture-performance platform that measures kindness, emotional intelligence, and recognition in the workplace.">
+    <meta name="keywords"
+        content="Kindworth, Culture Analytics, Kindness Quotient, KQ, Employee Engagement, Team Health, HR Analytics">
+    <meta name="author" content="Dedolytics">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Kindworth - Culture, Quantified">
+    <meta property="og:description"
+        content="A culture-performance platform that measures kindness, emotional intelligence, and recognition.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="/assets-bundled/kindworth-logo-BTpdHehW.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/assets-bundled/kindworth-logo-BTpdHehW.png">
+    <link rel="apple-touch-icon" href="/assets-bundled/kindworth-logo-BTpdHehW.png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+
+    <!-- Kindworth-specific overrides -->
+    <style>
+        :root {
+            --kw-primary: #1da1b5;
+            --kw-secondary: #0d8c9e;
+            --kw-gradient: linear-gradient(135deg, #1da1b5 0%, #0d8c9e 100%);
+        }
+
+        .kindworth-hero .hero-title,
+        .kindworth-hero .hero-subtitle,
+        .kindworth-hero .hero-desc,
+        .kindworth-hero .kq-score,
+        .kindworth-hero .hero-cta,
+        .kindworth-hero .kindworth-logo {
+            position: relative;
+            z-index: 3;
+        }
+
+        .kindworth-hero .hero-title {
+            opacity: 1 !important;
+            animation: none;
+        }
+
+        .hero-title span {
+            background: linear-gradient(90deg,
+                    var(--kw-primary) 0%,
+                    var(--kw-primary) 40%,
+                    #4fd1c5 50%,
+                    var(--kw-primary) 60%,
+                    var(--kw-primary) 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-primary {
+            background: var(--kw-gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #22b8cd 0%, #0fa5b8 100%);
+        }
+
+        .service-card:hover::before,
+        .process-step:hover .process-step-number {
+            border-color: var(--kw-primary);
+        }
+
+        .gallery-card.active {
+            border-color: var(--kw-primary);
+        }
+
+        .kw-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--kw-gradient);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: var(--space-md);
+        }
+
+        .kq-score {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--kw-gradient);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: var(--space-lg) 0;
+            box-shadow: 0 0 60px rgba(29, 161, 181, 0.3);
+        }
+
+        .problem-solution {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-xl);
+            margin-top: var(--space-xl);
+        }
+
+        .problem-card,
+        .solution-card {
+            padding: var(--space-xl);
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+        }
+
+        .problem-card {
+            border-left: 3px solid #ef4444;
+        }
+
+        .solution-card {
+            border-left: 3px solid var(--kw-primary);
+        }
+
+        .problem-card h4,
+        .solution-card h4 {
+            margin-bottom: var(--space-md);
+        }
+
+        .problem-card ul,
+        .solution-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .problem-card li,
+        .solution-card li {
+            padding: var(--space-sm) 0;
+            color: var(--muted);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+        }
+
+        .problem-card li::before {
+            content: '✗';
+            color: #ef4444;
+        }
+
+        .solution-card li::before {
+            content: '✓';
+            color: var(--kw-primary);
+        }
+
+        /* Dashboard Suite Grid */
+        .dashboard-suite {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: var(--space-xl);
+        }
+
+        .dashboard-module {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .dashboard-module:hover {
+            transform: translateY(-4px);
+            border-color: var(--kw-primary);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .module-icon {
+            font-size: 1.5rem;
+        }
+
+        .module-header h3 {
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .dashboard-module>p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .module-features {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .module-features li {
+            padding: 0.25rem 0;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .module-features li::before {
+            content: '→ ';
+            color: var(--kw-primary);
+        }
+
+        /* How It Works Pipeline */
+        .how-it-works {
+            margin-top: var(--space-2xl);
+            padding: 2rem;
+            background: rgba(29, 161, 181, 0.05);
+            border: 1px solid rgba(29, 161, 181, 0.2);
+            border-radius: var(--radius-lg);
+        }
+
+        .how-it-works h3 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 1.25rem;
+        }
+
+        .pipeline-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .pipeline-step {
+            text-align: center;
+            padding: 1rem;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            min-width: 140px;
+        }
+
+        .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: var(--kw-gradient);
+            border-radius: 50%;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .pipeline-step strong {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .pipeline-step p {
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .pipeline-arrow {
+            font-size: 1.5rem;
+            color: var(--kw-primary);
+        }
+
+        @media (max-width: 768px) {
+            .pipeline-flow {
+                flex-direction: column;
+            }
+
+            .pipeline-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* Form Layout Fixes */
+        .form-group {
+            position: relative;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .nav-links.open {
+            display: flex !important;
+        }
+
+        .mobile-only {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .mobile-only {
+                display: block;
+            }
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1.2rem 1rem 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group label {
+            position: absolute;
+            top: 1.2rem;
+            left: 1rem;
+            font-size: 0.9rem;
+            color: var(--muted);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            pointer-events: none;
+        }
+
+        .form-group input:focus+label,
+        .form-group input:not(:placeholder-shown)+label,
+        .form-group textarea:focus+label,
+        .form-group textarea:not(:placeholder-shown)+label {
+            top: 0.2rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--kw-primary);
+        }
+    </style>
+
+    <script type="module" crossorigin src="/assets-bundled/kindworth-Dy-KLIfL.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets-bundled/microInteractions-CxxPok3F.js">
+    <link rel="stylesheet" crossorigin href="/assets-bundled/microInteractions-iWPquNcN.css">
+    <link rel="stylesheet" crossorigin href="/assets-bundled/kindworth-Oi5cq78m.css">
+</head>
+
+<body>
+    <!-- Three.js Canvas (network graph background) -->
+    <canvas id="three-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav" role="navigation" aria-label="Main navigation">
+        <div class="container nav-inner">
+            <a href="index.html" class="nav-logo" aria-label="Dedolytics Home">
+                <img src="/assets-bundled/logo-B2wg1MFN.jpeg" alt="Dedolytics" width="40" height="40">
+                <span>DEDOLYTICS</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="index.html#work">Work</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li class="mobile-only"><a href="kindworth.html">Kindworth</a></li>
+            </ul>
+
+            <div class="nav-cta">
+                <a href="index.html" class="btn btn-ghost">← Back</a>
+                <a href="#demo" class="btn btn-primary">Schedule Demo</a>
+            </div>
+
+            <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+                ☰
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero kindworth-hero" id="hero" data-section>
+        <img src="/assets-bundled/kindworth-logo-BTpdHehW.png" alt="Kindworth Logo" class="kindworth-logo" width="200"
+            height="auto" onerror="this.style.display='none'">
+
+        <h1 class="hero-title">
+            <span>KINDWORTH</span>
+        </h1>
+
+        <p class="hero-subtitle">Culture, Quantified.</p>
+
+        <p class="hero-desc"
+            style="max-width: 600px; text-align: center; margin-bottom: 2rem; color: rgba(255,255,255,0.5);">
+            A culture-performance platform that measures kindness, emotional intelligence, and recognition to build
+            healthier, more productive teams.
+        </p>
+
+        <div class="kq-score" aria-label="Kindness Quotient Score Example">
+            KQ
+        </div>
+
+        <div class="hero-cta">
+            <a href="#demo" class="btn btn-primary">Schedule a Demo</a>
+            <a href="#features" class="btn btn-secondary">Learn More</a>
+        </div>
+    </section>
+
+    <!-- Problem/Solution Section -->
+    <section class="section" id="problem" data-section>
+        <div class="container">
+            <header class="gallery-header">
+                <span class="kw-badge">The Challenge</span>
+                <h2>Culture is Critical, Yet Invisible</h2>
+                <p>Most organizations measure everything except what matters most: how people treat each other</p>
+            </header>
+
+            <div class="problem-solution">
+                <div class="problem-card">
+                    <h4>The Problem</h4>
+                    <ul>
+                        <li>Burnout and disengagement go undetected until it's too late</li>
+                        <li>Emotional labor is invisible and unrewarded</li>
+                        <li>Culture assessments are annual, subjective, and actionless</li>
+                        <li>Recognition systems favor loudness over impact</li>
+                        <li>Toxicity spreads silently through teams</li>
+                    </ul>
+                </div>
+
+                <div class="solution-card">
+                    <h4>The Kindworth Solution</h4>
+                    <ul>
+                        <li>Real-time culture analytics from everyday interactions</li>
+                        <li>Kindness Quotient (KQ) scores for individuals and teams</li>
+                        <li>Early warning system for burnout and disengagement</li>
+                        <li>Recognition tied to measurable positive behaviors</li>
+                        <li>Network analysis to identify culture carriers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features" data-section>
+        <div class="container">
+            <header class="gallery-header">
+                <span class="kw-badge">Platform</span>
+                <h2>How Kindworth Works</h2>
+                <p>Integrates seamlessly with your existing tools to surface hidden culture signals</p>
+            </header>
+
+            <div class="kindworth-features">
+                <article class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Behavioral Signals</h3>
+                    <p>Analyzes communication patterns in Slack and Teams to identify supportive, collaborative, and
+                        positive behaviors.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>KQ Scoring</h3>
+                    <p>Proprietary Kindness Quotient algorithm quantifies culture health at individual, team, and org
+                        levels.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Burnout Detection</h3>
+                    <p>Early warning system identifies at-risk individuals before disengagement becomes turnover.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Network Analysis</h3>
+                    <p>Eigenvector analysis reveals hidden influencers and the true social fabric of your organization.
+                    </p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Smart Recognition</h3>
+                    <p>Automated recognition that surfaces unsung heroes and rewards genuine positive impact.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Leadership Dashboards</h3>
+                    <p>Executive views that connect culture metrics to business outcomes and team performance.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Suite Section -->
+    <section class="section" id="dashboards" data-section>
+        <div class="container">
+            <header class="gallery-header">
+                <span class="kw-badge">Product Suite</span>
+                <h2>Kindworth Dashboard Modules</h2>
+                <p>Five integrated dashboards that provide complete culture visibility</p>
+            </header>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-suite">
+
+                <article class="dashboard-module">
+                    <div class="module-header">
+                        <span class="module-icon">📊</span>
+                        <h3>Overview Dashboard</h3>
+                    </div>
+                    <p>Executive summary of organization-wide culture health with KQ scores, engagement trends, and team
+                        comparisons at a glance.</p>
+                    <ul class="module-features">
+                        <li>Company-wide KQ Score</li>
+                        <li>Team Health Matrix</li>
+                        <li>30-day Trend Analysis</li>
+                    </ul>
+                </article>
+
+                <article class="dashboard-module">
+                    <div class="module-header">
+                        <span class="module-icon">🔥</span>
+                        <h3>Burnout Risk</h3>
+                    </div>
+                    <p>Early warning system identifying at-risk individuals through behavioral signals before
+                        disengagement becomes turnover.</p>
+                    <ul class="module-features">
+                        <li>Risk Score by Employee</li>
+                        <li>Workload Indicators</li>
+                        <li>Intervention Triggers</li>
+                    </ul>
+                </article>
+
+                <article class="dashboard-module">
+                    <div class="module-header">
+                        <span class="module-icon">🌐</span>
+                        <h3>Network Analysis</h3>
+                    </div>
+                    <p>Eigenvector analysis reveals hidden influencers, culture carriers, and the true social fabric of
+                        your organization.</p>
+                    <ul class="module-features">
+                        <li>Centrality Mapping</li>
+                        <li>Influence Scores</li>
+                        <li>Team Connectivity</li>
+                    </ul>
+                </article>
+
+                <article class="dashboard-module">
+                    <div class="module-header">
+                        <span class="module-icon">👥</span>
+                        <h3>Team Health</h3>
+                    </div>
+                    <p>Drill into team-level dynamics with collaboration patterns, recognition flows, and support
+                        network visualization.</p>
+                    <ul class="module-features">
+                        <li>Team KQ Breakdown</li>
+                        <li>Collaboration Heatmap</li>
+                        <li>Manager Effectiveness</li>
+                    </ul>
+                </article>
+
+                <article class="dashboard-module">
+                    <div class="module-header">
+                        <span class="module-icon">🎯</span>
+                        <h3>Leadership Pipeline</h3>
+                    </div>
+                    <p>Identify emerging leaders based on positive influence behaviors, not just performance metrics.
+                    </p>
+                    <ul class="module-features">
+                        <li>High-Potential Identification</li>
+                        <li>Mentorship Recommendations</li>
+                        <li>Leadership Readiness Score</li>
+                    </ul>
+                </article>
+
+            </div>
+
+            <!-- How It Works -->
+            <div class="how-it-works">
+                <h3>How Kindworth Works</h3>
+                <div class="pipeline-flow">
+                    <div class="pipeline-step">
+                        <span class="step-num">1</span>
+                        <strong>Signal Sources</strong>
+                        <p>Slack, Teams, email patterns</p>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-step">
+                        <span class="step-num">2</span>
+                        <strong>NLP Engine</strong>
+                        <p>Behavioral tag classification</p>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-step">
+                        <span class="step-num">3</span>
+                        <strong>KQ Aggregator</strong>
+                        <p>Scoring matrix calculation</p>
+                    </div>
+                    <span class="pipeline-arrow">→</span>
+                    <div class="pipeline-step">
+                        <span class="step-num">4</span>
+                        <strong>Dashboards</strong>
+                        <p>Real-time culture insights</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo CTA Section -->
+    <section class="contact-section section" id="demo" data-section>
+        <div class="container">
+            <header class="gallery-header">
+                <span class="kw-badge">Get Started</span>
+                <h2>Schedule a Demo</h2>
+                <p>See how Kindworth can transform your organization's culture</p>
+            </header>
+
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <input type="text" id="name" name="name" required placeholder=" ">
+                    <label for="name">Name</label>
+                    <div class="form-line"></div>
+                </div>
+
+                <div class="form-group">
+                    <input type="email" id="email" name="email" required placeholder=" ">
+                    <label for="email">Work Email</label>
+                    <div class="form-line"></div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="company" name="company" placeholder=" ">
+                    <label for="company">Company</label>
+                    <div class="form-line"></div>
+                </div>
+
+                <div class="form-group">
+                    <textarea id="message" name="message" placeholder=" "></textarea>
+                    <label for="message">What challenges are you facing?</label>
+                    <div class="form-line"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    Request Demo
+                </button>
+            </form>
+
+            <div class="contact-info">
+                <p>Or reach out directly:</p>
+                <a href="mailto:hello@dedolytics.org">hello@dedolytics.org</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Kindworth by Dedolytics. All rights reserved.</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="mailto:hello@dedolytics.org">hello@dedolytics.org</a> ·
+                <a href="index.html">Dedolytics Main</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Modal Viewer -->
+    <div class="modal-overlay" id="viewerModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <header class="modal-header">
+            <h3 class="modal-title" id="modalTitle">Document Viewer</h3>
+
+            <div class="modal-controls">
+                <button class="modal-btn" data-action="zoomOut" aria-label="Zoom out" title="Zoom out">
+                    −
+                </button>
+                <button class="modal-btn" data-action="zoomIn" aria-label="Zoom in" title="Zoom in">
+                    +
+                </button>
+                <a class="modal-btn" data-action="download" href="#" download aria-label="Download" title="Download">
+                    ↓
+                </a>
+                <button class="modal-close" aria-label="Close viewer">
+                    ✕
+                </button>
+            </div>
+        </header>
+
+        <div class="modal-body">
+            <!-- Content populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Scripts -->
+</body>
+
+</html>

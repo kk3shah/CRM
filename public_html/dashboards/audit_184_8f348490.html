@@ -1,0 +1,102 @@
+<div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); padding: 25px; box-sizing: border-box;">
+
+    <!-- HEADER -->
+    <h2 style="color: #333333; font-size: 24px; text-align: center; margin-bottom: 30px; line-height: 1.3;">
+        Custom Analytics Dashboard Concept for <br><strong style="color: #007bff;">Mississauga Plumbing Service Ltd.</strong>
+    </h2>
+
+    <!-- METRICS ROW -->
+    <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin-bottom: 40px; gap: 15px;">
+
+        <!-- Metric 1: Monthly Appointment Volume -->
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center; width: calc(33% - 20px); min-width: 160px; box-sizing: border-box; border: 1px solid #e9ecef;">
+            <p style="color: #6c757d; font-size: 14px; margin: 0 0 10px 0;">Monthly Appointment Volume</p>
+            <h3 style="color: #333333; font-size: 32px; margin: 0 0 5px 0;">285</h3>
+            <p style="color: #28a745; font-size: 13px; margin: 0;">&uparrow; 12% from last month</p>
+        </div>
+
+        <!-- Metric 2: Customer Retention Rate -->
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center; width: calc(33% - 20px); min-width: 160px; box-sizing: border-box; border: 1px solid #e9ecef;">
+            <p style="color: #6c757d; font-size: 14px; margin: 0 0 10px 0;">Customer Retention Rate</p>
+            <h3 style="color: #333333; font-size: 32px; margin: 0 0 5px 0;">82%</h3>
+            <p style="color: #28a745; font-size: 13px; margin: 0;">&uparrow; 3% from last quarter</p>
+        </div>
+
+        <!-- Metric 3: Average Customer Lifetime Value (LTV) -->
+        <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; text-align: center; width: calc(33% - 20px); min-width: 160px; box-sizing: border-box; border: 1px solid #e9ecef;">
+            <p style="color: #6c757d; font-size: 14px; margin: 0 0 10px 0;">Avg. Customer Lifetime Value</p>
+            <h3 style="color: #333333; font-size: 32px; margin: 0 0 5px 0;">$890</h3>
+            <p style="color: #dc3545; font-size: 13px; margin: 0;">&downarrow; 1% from last year</p>
+        </div>
+
+    </div>
+
+    <!-- VISUAL: Simulated CSS Bar Chart (Monthly Service Volume) -->
+    <div style="margin-bottom: 40px; padding: 25px; background-color: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
+        <h4 style="color: #333333; font-size: 18px; text-align: center; margin-top: 0; margin-bottom: 25px;">Monthly Service Volume Trend</h4>
+        <div style="display: flex; align-items: flex-end; justify-content: space-around; height: 180px; padding: 0 10px; position: relative;">
+            
+            <!-- Baseline for visual effect -->
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background-color: #e0e0e0;"></div>
+
+            <!-- Bar 1 (Jan) -->
+            <div style="width: 12%; text-align: center; margin: 0 1%; position: relative;">
+                <div style="background-color: #007bff; height: 60%; border-radius: 4px 4px 0 0; position: relative; display: flex; align-items: flex-end; justify-content: center;">
+                    <span style="color: #333; font-size: 12px; position: absolute; top: -20px;">220</span>
+                </div>
+                <p style="color: #6c757d; font-size: 12px; margin-top: 8px;">Jan</p>
+            </div>
+            <!-- Bar 2 (Feb) -->
+            <div style="width: 12%; text-align: center; margin: 0 1%; position: relative;">
+                <div style="background-color: #007bff; height: 68%; border-radius: 4px 4px 0 0; position: relative; display: flex; align-items: flex-end; justify-content: center;">
+                    <span style="color: #333; font-size: 12px; position: absolute; top: -20px;">245</span>
+                </div>
+                <p style="color: #6c757d; font-size: 12px; margin-top: 8px;">Feb</p>
+            </div>
+            <!-- Bar 3 (Mar) -->
+            <div style="width: 12%; text-align: center; margin: 0 1%; position: relative;">
+                <div style="background-color: #007bff; height: 75%; border-radius: 4px 4px 0 0; position: relative; display: flex; align-items: flex-end; justify-content: center;">
+                    <span style="color: #333; font-size: 12px; position: absolute; top: -20px;">270</span>
+                </div>
+                <p style="color: #6c757d; font-size: 12px; margin-top: 8px;">Mar</p>
+            </div>
+            <!-- Bar 4 (Apr - Current month, highlighted) -->
+            <div style="width: 12%; text-align: center; margin: 0 1%; position: relative;">
+                <div style="background-color: #28a745; height: 85%; border-radius: 4px 4px 0 0; position: relative; display: flex; align-items: flex-end; justify-content: center;">
+                    <span style="color: #fff; font-size: 12px; position: absolute; top: -20px;">285</span>
+                </div>
+                <p style="color: #333333; font-size: 12px; font-weight: bold; margin-top: 8px;">Apr</p>
+            </div>
+            <!-- Bar 5 (May - Forecast) -->
+            <div style="width: 12%; text-align: center; margin: 0 1%; position: relative;">
+                <div style="background-color: #6c757d; height: 90%; border-radius: 4px 4px 0 0; opacity: 0.7; position: relative; display: flex; align-items: flex-end; justify-content: center;">
+                    <span style="color: #fff; font-size: 12px; position: absolute; top: -20px;">300</span>
+                </div>
+                <p style="color: #6c757d; font-size: 12px; margin-top: 8px;">May (F)</p>
+            </div>
+            <!-- Bar 6 (Jun - Forecast) -->
+            <div style="width: 12%; text-align: center; margin: 0 1%; position: relative;">
+                <div style="background-color: #6c757d; height: 95%; border-radius: 4px 4px 0 0; opacity: 0.7; position: relative; display: flex; align-items: flex-end; justify-content: center;">
+                    <span style="color: #fff; font-size: 12px; position: absolute; top: -20px;">315</span>
+                </div>
+                <p style="color: #6c757d; font-size: 12px; margin-top: 8px;">Jun (F)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER/CTA -->
+    <div style="text-align: center; margin-top: 30px;">
+        <p style="color: #555555; font-size: 16px; margin-bottom: 20px;">
+            Want to see your real numbers like this? Book a free data consultation.
+        </p>
+        <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2HePxAUUQzDdORvH9M7ZxCnczzZHTq6w_Ubpjy2STAQTLqYfAgCC9bqNidQSiguEqe1_1kJ_lx"
+           style="background-color: #007bff; color: #ffffff; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 16px; display: inline-block; transition: background-color 0.3s ease;">
+            Book Consultation
+        </a>
+    </div>
+
+</div>
+<div style="width:100%;max-width:600px;margin:30px auto 0;padding:20px 0;border-top:1px solid #e0e0e0;text-align:center;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <a href="https://www.dedolytics.org" style="display:inline-block;padding:12px 28px;background-color:#111111;color:#ffffff;text-decoration:none;font-weight:600;border-radius:6px;font-size:14px;letter-spacing:0.5px;">Visit Dedolytics &rarr;</a>
+  <p style="color:#999999;font-size:12px;margin-top:14px;">&copy; 2026 Dedolytics &mdash; Data &amp; AI for Growing Businesses</p>
+</div>

@@ -1,0 +1,86 @@
+<div style="max-width: 600px; margin: 20px auto; font-family: Arial, Helvetica, sans-serif; background-color: #f8f9fa; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 25px; box-sizing: border-box;">
+
+  <!-- HEADER -->
+  <div style="text-align: center; margin-bottom: 30px;">
+    <h2 style="font-size: 26px; color: #333; margin: 0; padding: 0;">Custom Analytics Dashboard Concept for Wellfit Social Club</h2>
+  </div>
+
+  <!-- METRICS ROW -->
+  <div style="display: flex; justify-content: space-between; gap: 15px; margin-bottom: 35px;">
+
+    <!-- Metric 1: Monthly Class Sign-ups -->
+    <div style="flex: 1; padding: 20px; background-color: #ffffff; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+      <div style="font-size: 14px; color: #666; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">Monthly Sign-ups</div>
+      <div style="font-size: 32px; font-weight: bold; color: #007bff; margin-bottom: 5px;">125</div>
+      <div style="font-size: 13px; color: #28a745;"><span style="font-size: 10px; vertical-align: middle;">▲</span> 12% vs. Last Month</div>
+    </div>
+
+    <!-- Metric 2: Member Retention Rate -->
+    <div style="flex: 1; padding: 20px; background-color: #ffffff; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+      <div style="font-size: 14px; color: #666; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">Member Retention</div>
+      <div style="font-size: 32px; font-weight: bold; color: #007bff; margin-bottom: 5px;">88%</div>
+      <div style="font-size: 13px; color: #28a745;"><span style="font-size: 10px; vertical-align: middle;">▲</span> 2% vs. Average</div>
+    </div>
+
+    <!-- Metric 3: Average Member LTV -->
+    <div style="flex: 1; padding: 20px; background-color: #ffffff; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+      <div style="font-size: 14px; color: #666; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;">Avg. Member LTV</div>
+      <div style="font-size: 32px; font-weight: bold; color: #007bff; margin-bottom: 5px;">$1,850</div>
+      <div style="font-size: 13px; color: #28a745;"><span style="font-size: 10px; vertical-align: middle;">▲</span> $75 vs. Last Year</div>
+    </div>
+  </div>
+
+  <!-- VISUAL: Simulated Bar Chart (Monthly Class Sign-ups Trend) -->
+  <div style="margin-bottom: 35px; padding: 25px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+    <h3 style="font-size: 18px; color: #333; margin-top: 0; margin-bottom: 25px; text-align: center;">Monthly Class Sign-ups Trend</h3>
+    <div style="display: flex; justify-content: space-around; align-items: flex-end; height: 150px; padding-top: 10px; border-bottom: 1px solid #eee; position: relative;">
+      
+      <!-- Max Value for scaling is 135. Using 140 for calculation to leave some room above highest bar for value text. -->
+
+      <!-- Bar Jan (80) -->
+      <div style="width: 15%; background-color: #007bff; border-radius: 4px 4px 0 0; height: calc(80 / 140 * 100%); position: relative;">
+        <div style="position: absolute; top: -25px; width: 100%; text-align: center; font-size: 12px; color: #555; font-weight: bold;">80</div>
+      </div>
+      
+      <!-- Bar Feb (95) -->
+      <div style="width: 15%; background-color: #007bff; border-radius: 4px 4px 0 0; height: calc(95 / 140 * 100%); position: relative;">
+        <div style="position: absolute; top: -25px; width: 100%; text-align: center; font-size: 12px; color: #555; font-weight: bold;">95</div>
+      </div>
+      
+      <!-- Bar Mar (110) -->
+      <div style="width: 15%; background-color: #007bff; border-radius: 4px 4px 0 0; height: calc(110 / 140 * 100%); position: relative;">
+        <div style="position: absolute; top: -25px; width: 100%; text-align: center; font-size: 12px; color: #555; font-weight: bold;">110</div>
+      </div>
+      
+      <!-- Bar Apr (125) -->
+      <div style="width: 15%; background-color: #007bff; border-radius: 4px 4px 0 0; height: calc(125 / 140 * 100%); position: relative;">
+        <div style="position: absolute; top: -25px; width: 100%; text-align: center; font-size: 12px; color: #555; font-weight: bold;">125</div>
+      </div>
+
+      <!-- Bar May (135) -->
+      <div style="width: 15%; background-color: #007bff; border-radius: 4px 4px 0 0; height: calc(135 / 140 * 100%); position: relative;">
+        <div style="position: absolute; top: -25px; width: 100%; text-align: center; font-size: 12px; color: #555; font-weight: bold;">135</div>
+      </div>
+    </div>
+
+    <!-- Labels for the bars -->
+    <div style="display: flex; justify-content: space-around; margin-top: 10px;">
+      <div style="width: 15%; text-align: center; font-size: 12px; color: #666;">Jan</div>
+      <div style="width: 15%; text-align: center; font-size: 12px; color: #666;">Feb</div>
+      <div style="width: 15%; text-align: center; font-size: 12px; color: #666;">Mar</div>
+      <div style="width: 15%; text-align: center; font-size: 12px; color: #666;">Apr</div>
+      <div style="width: 15%; text-align: center; font-size: 12px; color: #666;">May</div>
+    </div>
+  </div>
+
+  <!-- FOOTER/CTA -->
+  <div style="text-align: center; padding-top: 25px; border-top: 1px solid #eee; margin-top: 20px;">
+    <p style="font-size: 16px; color: #555; margin-bottom: 20px;">Want to see your real numbers like this? Book a free data consultation.</p>
+    <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2HePxAUUQzDdORvH9M7ZxCnczzZHTq6w_Ubpjy2STAQTLqYfAgCC9bqNidQSiguEqne1_1kJ_lx" style="display: inline-block; padding: 12px 25px; background-color: #28a745; color: #fff; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 16px; transition: background-color 0.3s ease;">Book Consultation</a>
+  </div>
+
+</div>
+<div style="width:100%;max-width:600px;margin:30px auto 0;padding:20px 0;border-top:1px solid #e0e0e0;text-align:center;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <a href="https://www.dedolytics.org" style="display:inline-block;padding:12px 28px;background-color:#111111;color:#ffffff;text-decoration:none;font-weight:600;border-radius:6px;font-size:14px;letter-spacing:0.5px;">Visit Dedolytics &rarr;</a>
+  <p style="color:#999999;font-size:12px;margin-top:14px;">&copy; 2026 Dedolytics &mdash; Data &amp; AI for Growing Businesses</p>
+</div>

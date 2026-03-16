@@ -1,0 +1,13 @@
+# Sitemap: https://dedolytics.com/sitemap.xml
+
+User-agent: *
+Allow: /
+
+# Static assets
+Allow: /assets/
+Allow: /assets/images/
+Allow: /assets/work/
+
+# Disallow internal tools
+Disallow: /tools/
+Disallow: /Data/

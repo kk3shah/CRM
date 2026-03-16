@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaign Performance Engine | Dedolytics</title>
+    <meta name="description"
+        content="Digital marketing analytics dashboard managing $2.43M ad spend with 4.21x ROAS, multi-channel attribution, and campaign ROI optimization.">
+    <link rel="stylesheet" href="../styles.css?v=2">
+    <link rel="stylesheet" href="project-styles.css">
+    <link rel="icon" type="image/jpeg" href="../assets/images/logo.jpeg">
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a href="../index.html" class="nav-logo">
+                <img src="../assets/images/logo.jpeg" alt="Dedolytics" width="32" height="32"
+                    style="border-radius: 6px; filter: brightness(0.9);">
+                <span>DEDOLYTICS</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html#work">Work</a></li>
+                <li><a href="../index.html#services">Services</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="../index.html#work" class="btn btn-ghost">← Back</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="project-hero">
+        <div class="project-hero-content">
+            <span class="project-category">Digital Marketing</span>
+            <h1 class="project-title">Campaign Performance Engine</h1>
+            <p class="project-subtitle">Multi-channel marketing intelligence optimizing $2.43M in ad spend across 5
+                platforms with 4.21x ROAS and automated budget reallocation</p>
+
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Industry</span>
+                    <span class="meta-value">B2B SaaS</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Technology</span>
+                    <span class="meta-value">Power BI, dbt, Fivetran</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">ROAS</span>
+                    <span class="meta-value">4.21x</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="project-content">
+        <section class="case-section">
+            <h2>The Challenge</h2>
+            <p>A B2B SaaS company was spending $2.4M annually across Google Ads, Meta, LinkedIn, TikTok, and email
+                marketing but couldn't correlate spend to pipeline revenue. Each channel had its own reporting
+                dashboard, attribution was inconsistent, and the CMO couldn't answer "which $1 produces the best
+                return?" with any confidence.</p>
+
+            <div class="highlight-box">
+                <h3>Key Business Questions</h3>
+                <ul>
+                    <li>What is our true ROAS by channel when including the full conversion lag?</li>
+                    <li>Which campaigns are generating the highest quality leads (SQL conversion)?</li>
+                    <li>How should we reallocate budget across channels to maximize pipeline?</li>
+                    <li>What is the CPA trend, and where are diminishing returns setting in?</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h2>The Solution</h2>
+            <p>We built a Campaign Performance Engine that unifies ad platform APIs, CRM data, and revenue attribution
+                into a single marketing intelligence hub:</p>
+
+            <div class="dashboard-tabs">
+                <div class="tab-card">
+                    <h3>💰 Spend & ROAS</h3>
+                    <p>$2.43M total spend yielding 4.21x blended ROAS with channel breakdown: Google Ads ($850K), Meta
+                        ($620K), LinkedIn ($410K), TikTok ($290K), Email ($260K).</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>📊 Campaign Trending</h3>
+                    <p>6-month performance curves tracking impressions (18.2M), clicks (654K), and conversions (12,847)
+                        with anomaly detection for campaign fatigue.</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>🎯 ROI Bubble Chart</h3>
+                    <p>Campaign-level ROI vs. spend scatter plot identifying outperformers ("Spring Sale" at 6.2x) and
+                        underperformers for budget reallocation.</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>📈 Lead Quality Scoring</h3>
+                    <p>12,847 leads generated at $18.60 CPA with ML-powered quality scoring predicting SQL conversion
+                        probability by channel and creative.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h2>Dashboard Views</h2>
+            <div class="dashboard-gallery">
+                <figure class="dashboard-figure">
+                    <img src="../assets/work/marketing-campaign-dashboard.png" alt="Marketing Campaign Dashboard"
+                        loading="lazy">
+                    <figcaption>Campaign Engine: Spend, ROAS, Performance Trends, Channel Attribution</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h2>Technical Implementation</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <h4>Data Architecture</h4>
+                    <p>Fivetran connectors for ad platform APIs, dbt transformation layer for unified attribution,
+                        Snowflake warehouse with incremental refresh every 4 hours.</p>
+                </div>
+                <div class="tech-item">
+                    <h4>Key Metrics</h4>
+                    <ul>
+                        <li>Return on Ad Spend (ROAS)</li>
+                        <li>Cost per Acquisition (CPA)</li>
+                        <li>Lead-to-SQL Conversion %</li>
+                        <li>Pipeline Influenced Revenue</li>
+                    </ul>
+                </div>
+                <div class="tech-item">
+                    <h4>Integrations</h4>
+                    <ul>
+                        <li>Google Ads & Analytics 4</li>
+                        <li>Meta Business Suite</li>
+                        <li>LinkedIn Campaign Manager</li>
+                        <li>HubSpot CRM (Pipeline)</li>
+                    </ul>
+                </div>
+                <div class="tech-item">
+                    <h4>Automation</h4>
+                    <p>Automated budget reallocation alerts when a channel's marginal ROAS drops below 2x. Weekly spend
+                        pacing reports with forecasted month-end totals.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-section">
+            <h2>The Results</h2>
+            <div class="results-grid">
+                <div class="result-stat">
+                    <span class="stat-number">4.21x</span>
+                    <span class="stat-label">ROAS</span>
+                </div>
+                <div class="result-stat">
+                    <span class="stat-number">12,847</span>
+                    <span class="stat-label">Leads Generated</span>
+                </div>
+                <div class="result-stat">
+                    <span class="stat-number">$18.60</span>
+                    <span class="stat-label">Cost per Lead</span>
+                </div>
+                <div class="result-stat">
+                    <span class="stat-number">+37%</span>
+                    <span class="stat-label">Pipeline Growth</span>
+                </div>
+            </div>
+
+            <blockquote class="testimonial">
+                "The bubble chart was a revelation. We discovered that our TikTok 'Spring Sale' campaign was
+                outperforming everything at 6.2x ROAS, but only had 5% of budget. Rebalancing drove a 37% pipeline
+                increase in one quarter."
+            </blockquote>
+        </section>
+    </main>
+
+    <nav class="project-nav">
+        <a href="workforce.html" class="nav-btn prev-btn"><span>← People Analytics</span></a>
+        <a href="redsticker.html" class="nav-btn next-btn"><span>Next: RedSticker Analytics →</span></a>
+    </nav>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Dedolytics. Business Intelligence. Delivered.</p>
+        </div>
+    </footer>
+
+    <div class="lightbox-overlay" id="lightbox">
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <img src="" alt="" id="lightbox-img">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
+    <script>
+        (function () {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            document.querySelectorAll('.dashboard-figure img').forEach(img => {
+                img.addEventListener('click', () => {
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt;
+                    lightboxCaption.textContent = img.closest('.dashboard-figure')?.querySelector('figcaption')?.textContent || '';
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox || e.target.classList.contains('lightbox-close')) {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

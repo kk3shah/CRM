@@ -1,0 +1,433 @@
+/* ===========================================
+   PROJECT PAGE STYLES
+   Case study pages for portfolio projects
+   =========================================== */
+
+/* Project Hero */
+.project-hero {
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 2rem 40px;
+    background: linear-gradient(180deg, rgba(26, 26, 26, 0.8) 0%, var(--bg) 100%);
+    text-align: center;
+}
+
+.project-hero-content {
+    max-width: 800px;
+}
+
+.project-category {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+}
+
+.project-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--text) 0%, var(--muted) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.project-subtitle {
+    font-size: 1.25rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+}
+
+.project-meta {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.meta-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.meta-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* Project Content */
+.project-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+}
+
+.case-section {
+    padding: 0;
+    /* Override default section padding from styles.css */
+    margin-bottom: 2rem;
+}
+
+.case-section h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+}
+
+.case-section p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+}
+
+/* Highlight Box */
+.highlight-box {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.highlight-box h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--accent);
+}
+
+.highlight-box ul {
+    list-style: none;
+    padding: 0;
+}
+
+.highlight-box li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--muted);
+}
+
+.highlight-box li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent2);
+}
+
+/* Dashboard Tabs */
+.dashboard-tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.tab-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.tab-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+}
+
+.tab-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text);
+}
+
+.tab-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 0;
+}
+
+/* Dashboard Gallery */
+.dashboard-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .dashboard-gallery {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dashboard-figure {
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #0d0d0d;
+    border: 1px solid var(--border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-figure:hover {
+    transform: scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.dashboard-figure img {
+    width: 100%;
+    height: 280px;
+    /* Uniform height for all dashboard images */
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    cursor: zoom-in;
+    /* Image sharpening for dashboard screenshots */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    filter: contrast(1.05) saturate(1.1) brightness(1.02);
+}
+
+.dashboard-figure figcaption {
+    padding: 1rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Technical Grid */
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .tech-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.tech-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.tech-item h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--accent2);
+}
+
+.tech-item p,
+.tech-item li {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.tech-item ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tech-item li {
+    padding: 0.35rem 0;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.tech-item li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+}
+
+/* Results Grid */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+    .results-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.result-stat {
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent2);
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Testimonial */
+.testimonial {
+    margin: 2rem 0;
+    padding: 2rem;
+    border-left: 3px solid var(--accent);
+    background: rgba(255, 255, 255, 0.02);
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.8;
+}
+
+/* Project Navigation */
+.project-nav {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+}
+
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+    transform: translateX(4px);
+}
+
+.prev-btn:hover {
+    transform: translateX(-4px);
+}
+
+/* ==========================================
+   Lightbox / Full-Screen Image Viewer
+   ========================================== */
+.lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    cursor: zoom-out;
+    padding: 2rem;
+}
+
+.lightbox-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-overlay img {
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: lightboxZoom 0.3s ease;
+}
+
+@keyframes lightboxZoom {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    font-size: 2rem;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.lightbox-close:hover {
+    opacity: 1;
+}
+
+.lightbox-caption {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    text-align: center;
+    max-width: 80%;
+}

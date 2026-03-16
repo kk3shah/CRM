@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Analytics Platform | Dedolytics</title>
+    <meta name="description"
+        content="Patient outcomes analytics dashboard tracking readmission rates, length of stay, and satisfaction scores across hospital departments.">
+    <link rel="stylesheet" href="../styles.css?v=2">
+    <link rel="stylesheet" href="project-styles.css">
+    <link rel="icon" type="image/jpeg" href="../assets/images/logo.jpeg">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container nav-inner">
+            <a href="../index.html" class="nav-logo">
+                <img src="../assets/images/logo.jpeg" alt="Dedolytics" width="32" height="32"
+                    style="border-radius: 6px; filter: brightness(0.9);">
+                <span>DEDOLYTICS</span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="../index.html#work">Work</a></li>
+                <li><a href="../index.html#services">Services</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+
+            <div class="nav-cta">
+                <a href="../index.html#work" class="btn btn-ghost">← Back</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Project Hero -->
+    <section class="project-hero">
+        <div class="project-hero-content">
+            <span class="project-category">Healthcare Analytics</span>
+            <h1 class="project-title">Patient Outcomes Platform</h1>
+            <p class="project-subtitle">Real-time clinical analytics tracking readmission rates, patient satisfaction,
+                and department performance across a 450-bed regional hospital network</p>
+
+            <div class="project-meta">
+                <div class="meta-item">
+                    <span class="meta-label">Industry</span>
+                    <span class="meta-value">Healthcare</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Technology</span>
+                    <span class="meta-value">Power BI, Azure SQL</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">Readmission Reduction</span>
+                    <span class="meta-value">-22%</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Study Content -->
+    <main class="project-content">
+
+        <!-- Overview Section -->
+        <section class="case-section">
+            <h2>The Challenge</h2>
+            <p>MediCare General Hospital's leadership lacked a unified view of patient outcomes across departments.
+                Readmission data was siloed in the EHR, satisfaction scores arrived monthly via PDF, and bed occupancy
+                was tracked on whiteboards. Clinical directors couldn't correlate care quality with operational
+                efficiency.</p>
+
+            <div class="highlight-box">
+                <h3>Key Business Questions</h3>
+                <ul>
+                    <li>What is the 30-day readmission rate by department and trending direction?</li>
+                    <li>How does average Length of Stay (LOS) compare to national benchmarks?</li>
+                    <li>Which departments are driving the highest patient satisfaction scores?</li>
+                    <li>What is real-time bed occupancy, and where are bottlenecks forming?</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Solution Section -->
+        <section class="case-section">
+            <h2>The Solution</h2>
+            <p>We built a comprehensive Patient Outcomes Platform integrating EHR data, satisfaction surveys, and bed
+                management systems into a single pane of glass:</p>
+
+            <div class="dashboard-tabs">
+                <div class="tab-card">
+                    <h3>📊 Readmission Trending</h3>
+                    <p>12-month rolling view of 30-day readmission rates with trend analysis. Rate decreased from 8.8%
+                        to 8.1% through data-driven interventions.</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>🏥 Department Performance</h3>
+                    <p>Average LOS vs. target by department — Cardiology (3.8 days), Orthopedics (3.1), Neurology (4.0),
+                        Oncology (2.9) — enabling resource optimization.</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>😊 Patient Satisfaction</h3>
+                    <p>94.2% overall satisfaction score with drill-down into nursing care, physician communication,
+                        discharge planning, and facility cleanliness.</p>
+                </div>
+
+                <div class="tab-card">
+                    <h3>🛏️ Bed Occupancy</h3>
+                    <p>Real-time 88% occupancy monitoring with predictive overflow alerts for ICU, Med-Surg, and
+                        step-down units.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Gallery -->
+        <section class="case-section">
+            <h2>Dashboard Views</h2>
+            <div class="dashboard-gallery">
+                <figure class="dashboard-figure">
+                    <img src="../assets/work/healthcare-analytics-dashboard.png" alt="Healthcare Analytics Dashboard"
+                        loading="lazy">
+                    <figcaption>Patient Outcomes Dashboard: KPIs, Readmission Trends, Department LOS</figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <!-- Technical Details -->
+        <section class="case-section">
+            <h2>Technical Implementation</h2>
+
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <h4>Data Architecture</h4>
+                    <p>Azure SQL Database with HL7 FHIR integration for real-time EHR data ingestion. HIPAA-compliant
+                        data pipeline with row-level security.</p>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Key Metrics</h4>
+                    <ul>
+                        <li>30-Day Readmission Rate</li>
+                        <li>Average Length of Stay (LOS)</li>
+                        <li>Patient Satisfaction Score</li>
+                        <li>Bed Occupancy %</li>
+                    </ul>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Data Sources</h4>
+                    <ul>
+                        <li>Electronic Health Records (EHR)</li>
+                        <li>Press Ganey Satisfaction Surveys</li>
+                        <li>Bed Management System</li>
+                        <li>Claims & Billing Data</li>
+                    </ul>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Compliance</h4>
+                    <p>HIPAA-compliant deployment with PHI anonymization, audit logging, and role-based access for
+                        clinical vs. administrative users.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="case-section">
+            <h2>The Results</h2>
+
+            <div class="results-grid">
+                <div class="result-stat">
+                    <span class="stat-number">-22%</span>
+                    <span class="stat-label">Readmission Rate</span>
+                </div>
+
+                <div class="result-stat">
+                    <span class="stat-number">94.2%</span>
+                    <span class="stat-label">Patient Satisfaction</span>
+                </div>
+
+                <div class="result-stat">
+                    <span class="stat-number">3.4 Days</span>
+                    <span class="stat-label">Avg Length of Stay</span>
+                </div>
+
+                <div class="result-stat">
+                    <span class="stat-number">$2.1M</span>
+                    <span class="stat-label">Cost Savings</span>
+                </div>
+            </div>
+
+            <blockquote class="testimonial">
+                "The dashboard identified a care transition gap in our Cardiology unit that was driving 40% of our
+                readmissions. Once we addressed it, our 30-day rate dropped below the national average for the first
+                time."
+            </blockquote>
+        </section>
+
+    </main>
+
+    <!-- Footer Navigation -->
+    <nav class="project-nav">
+        <a href="vendor.html" class="nav-btn prev-btn">
+            <span>← Vendor Performance</span>
+        </a>
+        <a href="financial.html" class="nav-btn next-btn">
+            <span>Next: Risk & Compliance →</span>
+        </a>
+    </nav>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Dedolytics. Business Intelligence. Delivered.</p>
+        </div>
+    </footer>
+
+    <!-- Lightbox Overlay -->
+    <div class="lightbox-overlay" id="lightbox">
+        <button class="lightbox-close" aria-label="Close">&times;</button>
+        <img src="" alt="" id="lightbox-img">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
+    <script>
+        (function () {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            document.querySelectorAll('.dashboard-figure img').forEach(img => {
+                img.addEventListener('click', () => {
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt;
+                    lightboxCaption.textContent = img.closest('.dashboard-figure')?.querySelector('figcaption')?.textContent || '';
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox || e.target.classList.contains('lightbox-close')) {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        })();
+    </script>
+
+</body>
+
+</html>
