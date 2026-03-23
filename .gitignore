@@ -9,3 +9,4 @@ node_modules/
 dist/
 *.zip
 .claude/worktrees/
+crm/.env
