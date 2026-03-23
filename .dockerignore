@@ -1,0 +1,52 @@
+# Python virtualenvs
+crm/venv/
+crm/.venv/
+venv/
+.venv/
+
+# Local SQLite database (Railway uses persistent volume at /data)
+crm/crm_database.db
+crm/*.db
+
+# Python cache
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+crm/.pytest_cache/
+
+# Logs (generated at runtime)
+crm/logs/
+
+# Node / frontend
+node_modules/
+public_html/node_modules/
+
+# Local environment files (Railway injects env vars)
+.env
+crm/.env
+**/.env.local
+**/.env.*.local
+
+# Version control
+.git/
+.gitignore
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# IDE
+.vscode/
+.idea/
+**/*.swp
+**/*.swo
+
+# Public APIs dataset (not needed in container)
+public-apis-master/
+
+# Generated dashboard HTML files (large, not needed at runtime)
+public_html/dashboards/
+
+# Playwright browser cache from local dev (base image has its own)
+crm/.playwright/

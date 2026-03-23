@@ -98,7 +98,8 @@ def init_db():
         niche_category TEXT,
         variant_id TEXT,
         google_rating REAL,
-        campaign_mode TEXT DEFAULT 'local'
+        campaign_mode TEXT DEFAULT 'local',
+        personalized_pitch TEXT
     )
     """
     )
@@ -136,6 +137,27 @@ def init_db():
     )
     """
     )
+
+    # Migrate smb_leads: add columns introduced after initial schema
+    _new_lead_columns = [
+        ("instagram_handle", "TEXT"),
+        ("tiktok_handle", "TEXT"),
+        ("lead_score", "INTEGER DEFAULT 0"),
+        ("ad_pixel_platforms", "TEXT"),
+        ("payment_processors", "TEXT"),
+        ("personalized_pitch", "TEXT"),
+    ]
+    for col, col_type in _new_lead_columns:
+        try:
+            cursor.execute(f"ALTER TABLE smb_leads ADD COLUMN {col} {col_type}")
+        except Exception:
+            pass  # Column already exists
+
+    # Migrate email_events: add Gemini reply classification column
+    try:
+        cursor.execute("ALTER TABLE email_events ADD COLUMN reply_classification TEXT")
+    except Exception:
+        pass
 
     # Create outbound_messages table
     cursor.execute(
@@ -291,6 +313,11 @@ def add_smb_lead(
     variant_id=None,
     google_rating=None,
     campaign_mode="local",
+    instagram_handle=None,
+    tiktok_handle=None,
+    lead_score=0,
+    ad_pixel_platforms=None,
+    payment_processors=None,
 ):
     """Inserts a new SMB lead. Ignores if email already exists."""
     conn = get_connection()
@@ -299,8 +326,8 @@ def add_smb_lead(
         today = datetime.now().strftime("%Y-%m-%d")
         cursor.execute(
             """
-        INSERT INTO smb_leads (company_name, category, email, website, phone, address, source, date_scraped, business_description, business_model, ecommerce_platform, ad_pixels_detected, email_capture_detected, product_count_estimate, niche_category, variant_id, google_rating, campaign_mode)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO smb_leads (company_name, category, email, website, phone, address, source, date_scraped, business_description, business_model, ecommerce_platform, ad_pixels_detected, email_capture_detected, product_count_estimate, niche_category, variant_id, google_rating, campaign_mode, instagram_handle, tiktok_handle, lead_score, ad_pixel_platforms, payment_processors)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
             (
                 company_name,
@@ -321,6 +348,11 @@ def add_smb_lead(
                 variant_id,
                 google_rating,
                 campaign_mode,
+                instagram_handle,
+                tiktok_handle,
+                lead_score,
+                ad_pixel_platforms,
+                payment_processors,
             ),
         )
 
@@ -334,12 +366,41 @@ def add_smb_lead(
 
 
 def get_pending_smb_infographics():
-    """Gets SMB leads that need an email generated, along with their enrichment signals."""
+    """Gets SMB leads that need an email generated, along with their enrichment signals.
+
+    Column indices:
+        0:id  1:company_name  2:category  3:email  4:website  5:business_description
+        6:address  7:variant_id  8:ecommerce_platform  9:ad_pixels_detected
+        10:email_capture_detected  11:product_count_estimate  12:niche_category
+        13:campaign_mode  14:instagram_handle  15:tiktok_handle
+        16:ad_pixel_platforms  17:payment_processors
+    Ordered by lead_score DESC so highest-quality leads get content first.
+    """
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute(
-        "SELECT id, company_name, category, email, website, business_description, address, variant_id, ecommerce_platform, ad_pixels_detected, email_capture_detected, product_count_estimate, niche_category, campaign_mode FROM smb_leads WHERE status = 'new' AND campaign_mode != 'vinland'"
-    )
+    # COALESCE(lead_score, 0) is safe even on DBs where the column was just added
+    # and existing rows still have NULL. Falls back gracefully on unmigrated DBs too.
+    try:
+        cursor.execute(
+            """SELECT id, company_name, category, email, website, business_description,
+                      address, variant_id, ecommerce_platform, ad_pixels_detected,
+                      email_capture_detected, product_count_estimate, niche_category,
+                      campaign_mode, instagram_handle, tiktok_handle,
+                      ad_pixel_platforms, payment_processors
+               FROM smb_leads
+               WHERE status = 'new' AND campaign_mode != 'vinland'
+               ORDER BY COALESCE(lead_score, 0) DESC"""
+        )
+    except Exception:
+        # Fallback for DBs that haven't run init_db() migration yet
+        cursor.execute(
+            """SELECT id, company_name, category, email, website, business_description,
+                      address, variant_id, ecommerce_platform, ad_pixels_detected,
+                      email_capture_detected, product_count_estimate, niche_category,
+                      campaign_mode, NULL, NULL, NULL, NULL
+               FROM smb_leads
+               WHERE status = 'new' AND campaign_mode != 'vinland'"""
+        )
     rows = cursor.fetchall()
     conn.close()
     return rows
@@ -386,17 +447,13 @@ def get_ready_smb_emails():
 
 
 def mark_smb_emailed(lead_id):
-    """Marks an SMB lead as emailed permanently by setting email_sent = 'yes' and scheduling first follow-up."""
+    """Marks an SMB lead as emailed permanently."""
     conn = get_connection()
     cursor = conn.cursor()
     todayStr = datetime.now().strftime("%Y-%m-%d")
-    # Schedule first follow-up for 7 days from now
-    from datetime import timedelta
-
-    followup_date = (datetime.now() + timedelta(days=7)).strftime("%Y-%m-%d")
     cursor.execute(
-        "UPDATE smb_leads SET status = 'emailed', last_emailed_date = ?, email_sent = 'yes', next_followup_date = ? WHERE id = ?",
-        (todayStr, followup_date, lead_id),
+        "UPDATE smb_leads SET status = 'emailed', last_emailed_date = ?, email_sent = 'yes' WHERE id = ?",
+        (todayStr, lead_id),
     )
     conn.commit()
     conn.close()
@@ -421,49 +478,6 @@ def get_today_new_leads_count():
     count = cursor.fetchone()[0]
     conn.close()
     return count
-
-
-def get_followup_leads():
-    """Gets leads that are due for a follow-up email (emailed, <3 follow-ups, due date reached)."""
-    conn = get_connection()
-    cursor = conn.cursor()
-    todayStr = datetime.now().strftime("%Y-%m-%d")
-    cursor.execute(
-        """
-        SELECT id, company_name, category, email, followup_count, campaign_mode
-        FROM smb_leads
-        WHERE email_sent = 'yes'
-        AND followup_count < 3
-        AND next_followup_date IS NOT NULL
-        AND next_followup_date <= ?
-        AND campaign_mode != 'vinland'
-        """,
-        (todayStr,),
-    )
-    rows = cursor.fetchall()
-    conn.close()
-    return rows
-
-
-def mark_followup_sent(lead_id):
-    """Increments followup_count and schedules next follow-up in 7 days."""
-    conn = get_connection()
-    cursor = conn.cursor()
-    from datetime import timedelta
-
-    next_date = (datetime.now() + timedelta(days=7)).strftime("%Y-%m-%d")
-    cursor.execute(
-        """
-        UPDATE smb_leads
-        SET followup_count = followup_count + 1,
-            next_followup_date = ?,
-            last_emailed_date = ?
-        WHERE id = ?
-        """,
-        (next_date, datetime.now().strftime("%Y-%m-%d"), lead_id),
-    )
-    conn.commit()
-    conn.close()
 
 
 def set_lead_error(lead_id, error_msg):
@@ -549,8 +563,12 @@ def record_bounce(tracking_id, bounce_status, bounce_message):
     conn.close()
 
 
-def record_reply(email_address, is_positive=False):
-    """Marks the latest email event for this email address as replied, and optionally positive."""
+def record_reply(email_address, is_positive=False, reply_classification=None):
+    """Marks the latest email event for this email address as replied.
+
+    reply_classification: Gemini-assigned label (hot/warm/cold/neutral) with intent,
+    e.g. 'hot: wants_pricing'. Stored for reporting and pipeline prioritisation.
+    """
     conn = get_connection()
     cursor = conn.cursor()
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -568,12 +586,15 @@ def record_reply(email_address, is_positive=False):
     positive_val = "yes" if is_positive else "no"
     cursor.execute(
         """
-        UPDATE email_events 
-        SET replied = 'yes', reply_date = ?, positive_reply = CASE WHEN ? = 'yes' THEN 'yes' ELSE positive_reply END
+        UPDATE email_events
+        SET replied = 'yes',
+            reply_date = ?,
+            positive_reply = CASE WHEN ? = 'yes' THEN 'yes' ELSE positive_reply END,
+            reply_classification = COALESCE(?, reply_classification)
         WHERE lead_id = ?
         AND id = (SELECT MAX(id) FROM email_events WHERE lead_id = ?)
         """,
-        (now, positive_val, lead_id, lead_id),
+        (now, positive_val, reply_classification, lead_id, lead_id),
     )
     affected = cursor.rowcount
     conn.commit()

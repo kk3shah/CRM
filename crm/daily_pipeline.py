@@ -141,14 +141,13 @@ def run_stage_generate() -> dict:
 
 
 def run_stage_send(dry_run: bool = False) -> dict:
-    """Stage 3: Send initial emails + follow-ups."""
+    """Stage 3: Send initial emails."""
     logger.info("=" * 60)
-    logger.info("STAGE 3: SEND — Email Dispatch + Follow-Ups")
+    logger.info("STAGE 3: SEND — Email Dispatch")
     logger.info("=" * 60)
 
-    results = {"initial": {}, "followups": {}}
+    results = {"initial": {}}
 
-    # Initial outreach
     try:
         from bot4_outreach import run_smb_outreach
 
@@ -157,16 +156,6 @@ def run_stage_send(dry_run: bool = False) -> dict:
     except Exception as e:
         logger.error(f"Initial outreach FAILED: {e}", exc_info=True)
         results["initial"] = {"sent": 0, "failed": 0, "fatal_error": str(e)}
-
-    # Follow-up outreach
-    try:
-        from bot4_outreach import run_followup_outreach
-
-        results["followups"] = run_followup_outreach(dry_run=dry_run)
-        logger.info(f"Follow-up outreach: {results['followups']}")
-    except Exception as e:
-        logger.error(f"Follow-up outreach FAILED: {e}", exc_info=True)
-        results["followups"] = {"sent": 0, "failed": 0, "fatal_error": str(e)}
 
     return results
 
@@ -252,7 +241,7 @@ def run_pipeline(dry_run: bool = False, args: dict = None):
     all_results = {
         "scrape": {"new_leads": 0},
         "generate": {"generated": 0},
-        "send": {"initial": {"sent": 0, "failed": 0}, "followups": {"sent": 0, "failed": 0}},
+        "send": {"initial": {"sent": 0, "failed": 0}},
         "metrics": {},
     }
     stage1_elapsed = stage2_elapsed = stage3_elapsed = 0.0
@@ -331,9 +320,8 @@ def run_pipeline(dry_run: bool = False, args: dict = None):
 
     send_results = all_results.get("send", {})
     initial = send_results.get("initial", {})
-    followups = send_results.get("followups", {})
     logger.info(
-        f"  Stage 3 (Send):   {stage3_elapsed / 60:.1f} min — {initial.get('sent', 0)} initial, {followups.get('sent', 0)} follow-ups"
+        f"  Stage 3 (Send):   {stage3_elapsed / 60:.1f} min — {initial.get('sent', 0)} sent, {initial.get('failed', 0)} failed"
     )
 
     metrics_data = all_results.get("metrics", {})

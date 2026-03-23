@@ -293,18 +293,24 @@ def _extract_business_description(soup: BeautifulSoup) -> str:
 
 
 def _enrich_website(html: str, soup: BeautifulSoup) -> dict:
-    """Enriches the website data with ecommerce, pixels, and product estimates."""
+    """Enriches the website with ecommerce platform, ad signals, social handles, and lead score."""
     enrichment = {
         "ecommerce_platform": None,
         "ad_pixels_detected": "no",
+        "ad_pixel_platforms": "",
         "email_capture_detected": "no",
         "product_count_estimate": 0,
         "ecommerce_detected": False,
         "business_model": "local_service",
+        "instagram_handle": None,
+        "tiktok_handle": None,
+        "payment_processors": "",
+        "lead_score": 0,
     }
 
     html_lower = html.lower()
 
+    # ── E-commerce platform detection (expanded) ─────────────────────────────
     if "window.shopify" in html_lower or "cdn.shopify.com" in html_lower:
         enrichment["ecommerce_platform"] = "Shopify"
     elif "woocommerce" in html_lower or "wp-content/plugins/woocommerce" in html_lower:
@@ -313,8 +319,16 @@ def _enrich_website(html: str, soup: BeautifulSoup) -> dict:
         enrichment["ecommerce_platform"] = "BigCommerce"
     elif "magento" in html_lower:
         enrichment["ecommerce_platform"] = "Magento"
-    elif "squarespace.com" in html_lower:
+    elif "squarespace.com/commerce" in html_lower or "static1.squarespace.com" in html_lower:
         enrichment["ecommerce_platform"] = "Squarespace"
+    elif "webflow.io" in html_lower or ("webflow.com" in html_lower and "cart" in html_lower):
+        enrichment["ecommerce_platform"] = "Webflow"
+    elif "_wix.com" in html_lower and ("wixstores" in html_lower or "cart" in html_lower):
+        enrichment["ecommerce_platform"] = "Wix"
+    elif "myvolusion.com" in html_lower or "volusion" in html_lower:
+        enrichment["ecommerce_platform"] = "Volusion"
+    elif "shift4shop" in html_lower or "3dcart" in html_lower:
+        enrichment["ecommerce_platform"] = "Shift4Shop"
 
     if (
         enrichment["ecommerce_platform"]
@@ -322,21 +336,60 @@ def _enrich_website(html: str, soup: BeautifulSoup) -> dict:
         or "/collections" in html_lower
         or "add to cart" in html_lower
         or "add-to-cart" in html_lower
+        or "buy now" in html_lower
     ):
         enrichment["ecommerce_detected"] = True
         enrichment["business_model"] = "ecommerce"
 
-    if (
-        "fbq(" in html_lower
-        or "googletagmanager.com" in html_lower
-        or "tiktok.com" in html_lower
-        or "connect.facebook.net" in html_lower
-    ):
-        enrichment["ad_pixels_detected"] = "yes"
+    # ── Ad pixel detection (expanded) ────────────────────────────────────────
+    pixel_platforms = []
+    if "fbq(" in html_lower or "connect.facebook.net" in html_lower:
+        pixel_platforms.append("Facebook")
+    if "googletagmanager.com" in html_lower or "gtag(" in html_lower:
+        pixel_platforms.append("Google")
+    if "tiktok.com/i18n" in html_lower or "analytics.tiktok.com" in html_lower or "ttq." in html_lower:
+        pixel_platforms.append("TikTok")
+    if "pintrk(" in html_lower or "ct.pinterest.com" in html_lower:
+        pixel_platforms.append("Pinterest")
+    if "snaptr(" in html_lower or "sc-static.net" in html_lower:
+        pixel_platforms.append("Snapchat")
+    if "ads.linkedin.com" in html_lower or "_linkedin_partner_id" in html_lower:
+        pixel_platforms.append("LinkedIn")
 
-    if "klaviyo" in html_lower or "mailchimp" in html_lower or "omnisend" in html_lower or "privy" in html_lower:
+    if pixel_platforms:
+        enrichment["ad_pixels_detected"] = "yes"
+        enrichment["ad_pixel_platforms"] = ",".join(pixel_platforms)
+
+    # ── Email capture / marketing automation (expanded) ──────────────────────
+    if (
+        "klaviyo" in html_lower
+        or "mailchimp" in html_lower
+        or "omnisend" in html_lower
+        or "privy" in html_lower
+        or "activecampaign" in html_lower
+        or "hubspot" in html_lower
+        or "drip.com" in html_lower
+        or "constantcontact" in html_lower
+        or "attentive" in html_lower
+        or "postscript" in html_lower
+    ):
         enrichment["email_capture_detected"] = "yes"
 
+    # ── Payment processor / BNPL detection ───────────────────────────────────
+    processors = []
+    if "affirm.com" in html_lower or "cdn.affirm.com" in html_lower:
+        processors.append("Affirm")
+    if "klarna.com" in html_lower:
+        processors.append("Klarna")
+    if "afterpay" in html_lower:
+        processors.append("Afterpay")
+    if "sezzle" in html_lower:
+        processors.append("Sezzle")
+    if "shop_pay" in html_lower or "shoppay" in html_lower or "pay.shopify.com" in html_lower:
+        processors.append("ShopPay")
+    enrichment["payment_processors"] = ",".join(processors)
+
+    # ── Product count estimate ────────────────────────────────────────────────
     product_links = set()
     for a in soup.find_all("a", href=True):
         href = a["href"].lower()
@@ -346,11 +399,60 @@ def _enrich_website(html: str, soup: BeautifulSoup) -> dict:
     count = len(product_links)
     if count > 0:
         enrichment["product_count_estimate"] = count * 3
+    elif "/collections" in html_lower:
+        enrichment["product_count_estimate"] = 15
     else:
-        if "/collections" in html_lower:
-            enrichment["product_count_estimate"] = 15
-        else:
-            enrichment["product_count_estimate"] = 0
+        enrichment["product_count_estimate"] = 0
+
+    # ── Social handle extraction ──────────────────────────────────────────────
+    for a in soup.find_all("a", href=True):
+        href = a.get("href", "")
+        href_lower = href.lower()
+
+        if not enrichment["instagram_handle"] and "instagram.com/" in href_lower:
+            try:
+                path = urllib.parse.urlparse(href).path.strip("/")
+                parts = [p for p in path.split("/") if p]
+                # Skip known non-profile paths
+                if parts and parts[0] not in ("p", "explore", "accounts", "reel", "reels", "stories", "tv"):
+                    handle = parts[0].lstrip("@")
+                    if handle and len(handle) <= 30:
+                        enrichment["instagram_handle"] = handle
+            except Exception:
+                pass
+
+        if not enrichment["tiktok_handle"] and "tiktok.com/@" in href_lower:
+            try:
+                handle = href.split("tiktok.com/@")[1].split("/")[0].split("?")[0]
+                if handle and len(handle) <= 30:
+                    enrichment["tiktok_handle"] = handle
+            except Exception:
+                pass
+
+    # ── Lead quality score (0–10) ─────────────────────────────────────────────
+    score = 0
+    platform = enrichment.get("ecommerce_platform")
+    if platform in ("Shopify", "BigCommerce", "WooCommerce"):
+        score += 3
+    elif platform in ("Webflow", "Wix", "Shift4Shop", "Volusion"):
+        score += 1
+    elif platform == "Squarespace":
+        score += 1
+
+    if enrichment["ad_pixels_detected"] == "yes":
+        score += 2
+    if enrichment["email_capture_detected"] == "yes":
+        score += 2
+    if enrichment["instagram_handle"]:
+        score += 1
+    if enrichment["tiktok_handle"]:
+        score += 1
+    if enrichment["product_count_estimate"] > 50:
+        score += 1
+    if enrichment["payment_processors"]:
+        score += 1  # BNPL = higher AOV market
+
+    enrichment["lead_score"] = score
 
     return enrichment
 
@@ -361,7 +463,7 @@ def scrape_website_for_email_and_description(page, base_url: str, max_retries: i
     Tries homepage first, then common contact page slugs.
     Returns (emails_list, business_description, enrichment_dict).
     """
-    slugs = ["", "/contact", "/about"]
+    slugs = ["", "/contact", "/about", "/contact-us", "/pages/contact", "/pages/about", "/get-in-touch", "/reach-us", "/support"]
     best_description = ""
     best_enrichment = None
 
@@ -582,6 +684,11 @@ def scrape_gta_smbs(target_leads: int = 70) -> dict:
                         variant_id=variant,
                         google_rating=place.get("rating", 0.0),
                         campaign_mode="ecom",
+                        instagram_handle=enrichment.get("instagram_handle"),
+                        tiktok_handle=enrichment.get("tiktok_handle"),
+                        lead_score=enrichment.get("lead_score", 0),
+                        ad_pixel_platforms=enrichment.get("ad_pixel_platforms"),
+                        payment_processors=enrichment.get("payment_processors"),
                     )
 
                     if lead_id:
@@ -589,7 +696,14 @@ def scrape_gta_smbs(target_leads: int = 70) -> dict:
                         stats["new_leads"] += 1
                         is_free = email.split("@")[1] in FREE_PROVIDERS
                         provider_tag = " (free)" if is_free else ""
-                        desc_tag = f" | Variant: {variant} | ProdEst: {enrichment.get('product_count_estimate')} | Platform: {enrichment.get('ecommerce_platform')}"
+                        ig = f" IG:@{enrichment['instagram_handle']}" if enrichment.get("instagram_handle") else ""
+                        tt = f" TT:@{enrichment['tiktok_handle']}" if enrichment.get("tiktok_handle") else ""
+                        desc_tag = (
+                            f" | Score:{enrichment.get('lead_score',0)}"
+                            f" | Platform:{enrichment.get('ecommerce_platform')}"
+                            f" | Prods:{enrichment.get('product_count_estimate')}"
+                            f"{ig}{tt}"
+                        )
                         print(f"    [+] #{stats['new_leads']} {name} <{email}>{provider_tag} [{niche}]{desc_tag}")
                     else:
                         stats["duplicates"] += 1

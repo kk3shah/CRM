@@ -16,9 +16,25 @@ from dotenv import load_dotenv
 
 import db
 
+load_dotenv()
+
+# Lazy-load Gemini only if the key is available
+_gemini_model = None
+def _get_gemini_model():
+    global _gemini_model
+    if _gemini_model is None:
+        api_key = os.getenv("GEMINI_API_KEY")
+        if api_key:
+            try:
+                import google.generativeai as genai
+                genai.configure(api_key=api_key)
+                _gemini_model = genai.GenerativeModel("gemini-2.0-flash")
+            except Exception:
+                pass
+    return _gemini_model
+
 # Ensure we're running from the crm/ directory limits
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-load_dotenv()
 
 EMAIL_ACCOUNTS = [
     {"email": os.getenv("EMAIL_1_ADDRESS"), "password": os.getenv("EMAIL_1_PASSWORD")},
@@ -133,15 +149,78 @@ def _is_auto_reply(body_text):
     return any(signal in body_lower for signal in _AUTO_REPLY_SIGNALS)
 
 
-def _is_positive(body_text):
-    """Returns True if the reply shows genuine buying interest."""
+def _classify_with_keywords(body_text: str) -> dict:
+    """Keyword-based fallback classifier. Returns classification dict."""
     if _is_auto_reply(body_text):
-        return False
+        return {"is_positive": False, "classification": "auto_reply", "intent": "out_of_office"}
     body_lower = body_text.lower()
     for kw in POSITIVE_KEYWORDS:
         if re.search(rf"\b{re.escape(kw)}\b", body_lower):
-            return True
-    return False
+            return {"is_positive": True, "classification": "warm", "intent": "keyword_match"}
+    return {"is_positive": False, "classification": "neutral", "intent": "unclear"}
+
+
+def _classify_reply(body_text: str) -> dict:
+    """
+    Classifies reply intent using Gemini 2.0 Flash.
+
+    Returns:
+        {
+          'is_positive': bool,
+          'classification': 'hot' | 'warm' | 'cold' | 'neutral' | 'auto_reply',
+          'intent': str   — short phrase, e.g. 'wants pricing', 'schedule call'
+        }
+
+    Falls back to keyword matching if Gemini is unavailable or times out.
+    """
+    if _is_auto_reply(body_text):
+        return {"is_positive": False, "classification": "auto_reply", "intent": "out_of_office"}
+
+    model = _get_gemini_model()
+    if model is None:
+        return _classify_with_keywords(body_text)
+
+    prompt = f"""Classify this cold email reply for a B2B data analytics/consulting service called Dedolytics.
+
+REPLY TEXT (first 600 chars):
+{body_text[:600]}
+
+Respond in EXACTLY this format — no other text:
+CLASSIFICATION: hot|warm|cold|neutral
+IS_POSITIVE: yes|no
+INTENT: <one short phrase>
+
+Definitions:
+- hot   = actively wants to meet, get pricing, book a call, or try the service
+- warm  = interested but not immediately committing (curious, asked a question)
+- cold  = politely declining or uninterested
+- neutral = unclear, very short, or no actionable signal"""
+
+    try:
+        response = model.generate_content(prompt, request_options={"timeout": 15})
+        text = response.text.strip()
+
+        classification = "neutral"
+        is_positive = False
+        intent = ""
+
+        for line in text.splitlines():
+            if line.startswith("CLASSIFICATION:"):
+                classification = line.split(":", 1)[1].strip().lower()
+            elif line.startswith("IS_POSITIVE:"):
+                is_positive = line.split(":", 1)[1].strip().lower() == "yes"
+            elif line.startswith("INTENT:"):
+                intent = line.split(":", 1)[1].strip()
+
+        return {"is_positive": is_positive, "classification": classification, "intent": intent}
+
+    except Exception:
+        return _classify_with_keywords(body_text)
+
+
+def _is_positive(body_text):
+    """Legacy shim — delegates to the Gemini classifier."""
+    return _classify_reply(body_text)["is_positive"]
 
 
 def check_account_replies(account):
@@ -184,18 +263,29 @@ def check_account_replies(account):
 
             body_text = _get_plain_text(msg)
 
-            # Skip auto-replies and OOO messages — they are not genuine replies
-            if _is_auto_reply(body_text):
+            # Classify with Gemini (falls back to keywords if unavailable)
+            result = _classify_reply(body_text)
+
+            # Skip auto-replies — they are not genuine replies
+            if result["classification"] == "auto_reply":
                 continue
 
+            # Build classification label for DB storage, e.g. "hot: wants pricing"
+            classification_label = result["classification"]
+            if result["intent"]:
+                classification_label += f": {result['intent']}"
+
             # Record a reply only if sender is one of our scraped SMBs
-            is_pos = _is_positive(body_text)
-            tracked = db.record_reply(sender_email, is_positive=is_pos)
+            tracked = db.record_reply(
+                sender_email,
+                is_positive=result["is_positive"],
+                reply_classification=classification_label,
+            )
 
             if tracked:
-                print(f"    [+] Logged reply from {sender_email} (Positive: {is_pos})")
+                print(f"    [+] Logged reply from {sender_email} [{classification_label}]")
                 replies_found += 1
-                if is_pos:
+                if result["is_positive"]:
                     positive_found += 1
 
         mail.logout()

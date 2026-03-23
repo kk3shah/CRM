@@ -7,6 +7,7 @@ while being fully automated.
 """
 
 import os
+import re
 import time
 import db
 import google.generativeai as genai
@@ -75,6 +76,10 @@ def _build_personalized_prompt(
     product_count_estimate=0,
     niche_category=None,
     campaign_mode="local",
+    instagram_handle=None,
+    tiktok_handle=None,
+    ad_pixel_platforms=None,
+    payment_processors=None,
 ):
     """
     Builds a highly personalized Gemini prompt using all available context
@@ -89,9 +94,16 @@ def _build_personalized_prompt(
 
     if campaign_mode == "ecom":
         context_lines.append(f"Ecommerce Platform: {ecommerce_platform or 'Unknown'}")
-        context_lines.append(f"Running Paid Ads (Pixels Detected): {ad_pixels_detected.upper()}")
-        context_lines.append(f"Email Marketing Flow Detected: {email_capture_detected.upper()}")
+        pixels_label = ad_pixel_platforms if ad_pixel_platforms else ("YES" if ad_pixels_detected == "yes" else "NO")
+        context_lines.append(f"Running Paid Ads (Platforms): {pixels_label}")
+        context_lines.append(f"Email Marketing Flow: {email_capture_detected.upper()}")
         context_lines.append(f"Est. Product SKU Count: {product_count_estimate}")
+        if payment_processors:
+            context_lines.append(f"BNPL / Payment Options: {payment_processors}")
+        if instagram_handle:
+            context_lines.append(f"Instagram: @{instagram_handle}")
+        if tiktok_handle:
+            context_lines.append(f"TikTok: @{tiktok_handle}")
 
     business_context = "\n".join(context_lines)
 
@@ -192,6 +204,10 @@ def _build_pitch_prompt(
     product_count_estimate=0,
     niche_category=None,
     campaign_mode="local",
+    instagram_handle=None,
+    tiktok_handle=None,
+    ad_pixel_platforms=None,
+    payment_processors=None,
 ):
     """
     Builds a prompt for a highly personalized, plain-text outreach email.
@@ -205,42 +221,46 @@ def _build_pitch_prompt(
 
     if campaign_mode == "ecom":
         context_lines.append(f"Ecommerce Platform: {ecommerce_platform or 'Unknown'}")
-        context_lines.append(f"Running Paid Ads (Pixels Detected): {ad_pixels_detected.upper()}")
+        pixels_label = ad_pixel_platforms if ad_pixel_platforms else ("YES" if ad_pixels_detected == "yes" else "NO")
+        context_lines.append(f"Running Paid Ads (Platforms): {pixels_label}")
+        if payment_processors:
+            context_lines.append(f"BNPL / Payment Options: {payment_processors}")
+        if instagram_handle:
+            context_lines.append(f"Instagram: @{instagram_handle}")
+        if tiktok_handle:
+            context_lines.append(f"TikTok: @{tiktok_handle}")
 
     business_context = "\n".join(context_lines)
 
-    prompt = f"""You are a senior data consultant at Dedolytics. You are writing a PERSONAL, one-to-one cold email to the owner of {company_name}.
+    prompt = f"""You are writing a short, personal cold email on behalf of Dedolytics — a small business growth consultancy — to the owner of {company_name}.
 
-GOAL: Get them to reply.
-OFFER: First month (or first project) is completely $0. If they like the results, you can talk about a future partnership.
-
-TARGET BUSINESS CONTEXT:
+CONTEXT ABOUT THEM:
 {business_context}
 
-INSTRUCTIONS:
-1. Write in plain text. NO HTML. NO generic greeting like "Dear Team". Use "Hi {company_name}" or similar.
-2. Mention 2-3 specific, high-value business scenarios tailored to their niche ({niche_category or category}).
-   - Examples for Convenience Stores: inventory audits to stop shrinkage, aisle/shelf optimization for higher margin snacks, POS pricing optimization, or delivery route efficiency.
-   - Examples for E-commerce: abandoned cart recovery audits, CAC/LTV breakdown by channel, or inventory forecasting.
-   - Examples for Local Services: booking leak analysis, local search intent mapping, or customer lifetime value segmentation.
-3. Be specific. Use "real world" terms, not "Big Data" or "AI Models".
-4. Pitch: "We'll build you a custom dashboard or run a specific audit (like [scenario]) for $0. No risk. I just want to show you how much margin you're leaving on the table."
-5. Tone: Low-pressure, helpful, and expert. Like a neighbor who happens to be a data genius.
-6. Keep it concise (under 150 words).
+WHAT DEDOLYTICS DOES:
+We work with {niche_category or category} businesses as a growth partner. We come in, figure out exactly where revenue is leaking or where there's untapped margin, and fix it. We handle the analysis, the recommendations, and the implementation support. The owner doesn't need to understand data — they just need to want results.
 
-7. CRITICAL: Strictly forbid ALL bracketed placeholders. Do NOT include phrases like "[Your Name]", "[Industry]", or "[City]".
-8. DO NOT invent contact names or personal details. 
-9. Use the business name "{company_name}" directly if needed, never a placeholder.
-10. If you do not know a piece of information, omit the sentence entirely rather than using a placeholder.
+THE OFFER:
+First month is completely free. No contract, no commitment, no invoice. We do the work. If they see value, we talk about continuing. If not, no hard feelings.
 
-OUTPUT REQUIREMENTS:
-- Start DIRECTLY with the greeting (e.g., "Hi {company_name},").
-- Just the email body text. 
-- NO subject line. 
-- NO placeholders like [Your Name] or [My Name]. 
-- Use "— The Dedolytics team" as the sign-off.
-- DO NOT invent a name for yourself.
-- ABSOLUTELY NO BRACKETS [ ] IN THE ENTIRE RESPONSE.
+NICHE PAIN POINTS — pick exactly ONE that fits their business and build the email around it:
+{niche_hints}
+
+HOW TO WRITE THIS EMAIL:
+1. Open with "Hi {company_name}," — no other greeting.
+2. In 1-2 sentences, name the specific problem you'd work on in month 1. Use plain language — the kind the owner would use, not consultant jargon.
+3. State the offer: first month is free, no contract, no catch.
+4. Close with a single low-pressure question: "Worth a quick call this week?"
+5. Sign off: "— The Dedolytics team"
+
+STRICT RULES:
+- Under 100 words total.
+- Plain text only. No bullet points, no headers, no HTML.
+- NEVER mention: "dashboard", "analytics platform", "data stack", "AI", "machine learning", "Big Data", "KPIs", "metrics".
+- NEVER use bracketed placeholders — not [Your Name], not [City], not [Industry]. Nothing in brackets.
+- If you don't know a specific detail, leave it out. Never invent facts.
+- Do NOT include a subject line.
+- ABSOLUTELY NO BRACKETS [ ] ANYWHERE IN THE RESPONSE.
 """
     return prompt
 
@@ -252,8 +272,6 @@ def validate_and_sanitize_pitch(text, company_name):
     """
     if not text:
         return None
-
-    import re
 
     # 1. Check for any bracketed placeholders [Like This]
     placeholders = re.findall(r"\[.*?\]", text)
@@ -283,6 +301,10 @@ def generate_personalized_pitch(
     product_count_estimate=0,
     niche_category=None,
     campaign_mode="local",
+    instagram_handle=None,
+    tiktok_handle=None,
+    ad_pixel_platforms=None,
+    payment_processors=None,
 ):
     """Generates a personalized plain-text pitch using Gemini."""
     prompt = _build_pitch_prompt(
@@ -296,6 +318,10 @@ def generate_personalized_pitch(
         product_count_estimate,
         niche_category,
         campaign_mode,
+        instagram_handle=instagram_handle,
+        tiktok_handle=tiktok_handle,
+        ad_pixel_platforms=ad_pixel_platforms,
+        payment_processors=payment_processors,
     )
 
     try:
@@ -319,6 +345,10 @@ def generate_smb_infographic_html(
     product_count_estimate=0,
     niche_category=None,
     campaign_mode="local",
+    instagram_handle=None,
+    tiktok_handle=None,
+    ad_pixel_platforms=None,
+    payment_processors=None,
 ):
     """
     Generates a personalized HTML infographic for a specific business using Gemini.
@@ -335,6 +365,10 @@ def generate_smb_infographic_html(
         product_count_estimate,
         niche_category,
         campaign_mode,
+        instagram_handle=instagram_handle,
+        tiktok_handle=tiktok_handle,
+        ad_pixel_platforms=ad_pixel_platforms,
+        payment_processors=payment_processors,
     )
 
     try:
@@ -402,6 +436,12 @@ def run_outreach_generation_cycle():
                 # Check if we have a pitch for this index
                 pitch_text = pitches[idx] if idx < len(pitches) else None
 
+                # Read new enrichment fields from extended DB query (indices 14–17)
+                instagram_handle = lead[14] if len(lead) > 14 else None
+                tiktok_handle = lead[15] if len(lead) > 15 else None
+                ad_pixel_platforms = lead[16] if len(lead) > 16 else None
+                payment_processors = lead[17] if len(lead) > 17 else None
+
                 # Still generate legacy infographic (one by one for now as it's HTML heavy)
                 html_payload = generate_smb_infographic_html(
                     company_name=company_name,
@@ -415,6 +455,10 @@ def run_outreach_generation_cycle():
                     product_count_estimate=lead[11],
                     niche_category=lead[12],
                     campaign_mode=lead[13],
+                    instagram_handle=instagram_handle,
+                    tiktok_handle=tiktok_handle,
+                    ad_pixel_platforms=ad_pixel_platforms,
+                    payment_processors=payment_processors,
                 )
 
                 if pitch_text:
@@ -453,30 +497,122 @@ def run_outreach_generation_cycle():
 
 
 NICHE_SCENARIOS = {
-    "Dentist": "appointment no-show rate analysis, treatment acceptance funnel, patient reactivation segmentation, chair utilization optimization",
-    "Physiotherapy": "appointment fill-rate tracking, patient drop-off analysis after initial visit, referral source ROI, rebooking rate optimization",
-    "Restaurants": "menu profitability by item, labor cost vs revenue by shift, table turn optimization, promo ROI (e.g. happy hour lift)",
-    "Landscaping": "job margin by service type, crew utilization, seasonal demand forecasting, upsell conversion on maintenance contracts",
-    "Cleaning": "booking funnel drop-off, client lifetime value segmentation, re-engagement of lapsed clients, service profitability breakdown",
-    "Accounting": "client churn prediction, service mix profitability, referral source tracking, off-season revenue analysis",
-    "Plumbing": "job ticket average analysis, dispatch efficiency, emergency call conversion rate, repeat customer identification",
-    "Gyms": "member churn prediction, class fill-rate by time slot, personal training upsell conversion, LTV by acquisition channel",
-    "Fitness": "class attendance trends, membership tier profitability, intro offer to paid conversion, drop-off timing analysis",
-    "Online": "abandoned cart recovery, CAC by channel, LTV segmentation, email flow performance",
-    "Apparel": "return rate by SKU, size/colour dead inventory, ad spend ROI by channel, repeat purchase triggers",
-    "Supplements": "subscription churn analysis, bundle attach rate, reorder timing optimization, ad attribution by SKU",
-    "Auto": "technician utilization, parts margin by job type, repeat customer identification, service reminder conversion",
-    "Pet": "appointment rebooking rate, product attachment per visit, seasonal demand, client lifetime spend segmentation",
-    "Beauty": "stylist utilization, appointment no-show rate, rebooking trigger analysis, retail product attach rate",
-    # New high-converting B2B niches
-    "Marketing": "campaign ROI by channel, client retention analytics, lead attribution, monthly reporting automation",
-    "Law": "billing efficiency by matter type, client intake conversion, referral source tracking, utilization rate by attorney",
-    "Mortgage": "lead-to-close conversion funnel, referral partner ROI, pipeline velocity, lost deal analysis",
-    "Recruitment": "time-to-fill by role type, placement rate by client, candidate source quality, revenue per recruiter",
-    "Financial": "client retention analysis, AUM growth attribution, service tier profitability, referral network mapping",
-    "Real Estate": "lead-to-showing conversion, listing time vs price reduction correlation, agent productivity, referral source ROI",
-    "HVAC": "seasonal demand forecasting, technician utilization, service agreement renewal rate, parts margin by job",
-    "Bookkeeping": "client profitability by service mix, capacity utilization, referral source tracking, seasonal workload patterns",
+    # Each entry: 2-3 concrete business PROBLEMS the owner recognizes, in plain language
+    "Dentist": (
+        "patients who accept a consultation but never book the actual treatment, "
+        "chairs sitting empty on predictable days of the week because of no-show patterns nobody tracks, "
+        "which hygienists have the best patient rebooking rate and why"
+    ),
+    "Physiotherapy": (
+        "patients who drop off after session 2 or 3 before they've seen real results — and the clinic never finds out why, "
+        "which referral sources send patients who complete their full plan vs those who ghost, "
+        "scheduling gaps that quietly cost the clinic thousands a month"
+    ),
+    "Restaurants": (
+        "menu items that look popular but actually subsidize everything else because the margin is terrible, "
+        "which nights and shifts are making money vs quietly losing it once labour is accounted for, "
+        "which promotions drove genuinely new revenue vs just moved existing customers to a discounted price"
+    ),
+    "Landscaping": (
+        "job types that look profitable on paper but actually cost more once drive time and crew hours are counted, "
+        "seasonal scheduling gaps that leave crews underutilized and margins thin, "
+        "maintenance contract renewals that quietly lapse because nobody flags them in time"
+    ),
+    "Cleaning": (
+        "clients that are technically active but cost more to service than they pay — and nobody has done the math, "
+        "which services have the best margin and which are basically breakeven, "
+        "lapsed clients who left without explanation that could be won back with the right outreach"
+    ),
+    "Accounting": (
+        "clients who take the most hours but generate the least revenue per hour — the classic 80/20 inversion most firms never measure, "
+        "which services have the strongest margin and which ones the firm does out of habit, "
+        "off-season revenue gaps that could be filled with advisory work the firm is already qualified to do"
+    ),
+    "Plumbing": (
+        "job types where the ticket size looks fine but the actual margin after parts and drive time is thin, "
+        "emergency call patterns that could be shifted into more profitable scheduled work, "
+        "repeat customers who haven't called back in 12+ months and why"
+    ),
+    "Gyms": (
+        "exactly when members decide to cancel — most gyms lose members at predictable points that nobody is watching, "
+        "which class time slots are consistently underbooked and losing money on instructor cost, "
+        "members who are one bad experience away from leaving vs those who are deeply sticky"
+    ),
+    "Fitness": (
+        "the drop-off point where new members stop showing up before they've built a habit — and it's usually within the first 3 weeks, "
+        "which membership tiers are actually profitable vs which ones the studio offers out of habit, "
+        "intro offer conversions — what percentage actually convert to full members and what changes that number"
+    ),
+    "Online": (
+        "products that get added to cart but abandoned at a predictable point in checkout, "
+        "which acquisition channels are bringing customers who actually come back vs one-time buyers, "
+        "repeat purchase timing — most stores have a natural reorder window they've never identified"
+    ),
+    "Apparel": (
+        "which SKUs have high return rates quietly eating into margin, "
+        "dead inventory that's tying up cash and could be moved with targeted promotions, "
+        "customers who bought once and never came back — and what they had in common"
+    ),
+    "Supplements": (
+        "subscription customers who are about to cancel before they actually do — there are always early signals, "
+        "which product combinations have the best long-term retention and how to bundle around them, "
+        "the reorder window — most supplement brands have a predictable repurchase cycle they're not using"
+    ),
+    "Auto": (
+        "job types that look profitable but aren't once technician time and parts markup are properly allocated, "
+        "customers who came in once and never returned — identifying them and why they left, "
+        "service reminder timing — most shops send reminders too early or too late to convert"
+    ),
+    "Pet": (
+        "clients whose visit frequency is quietly dropping before they fully churn, "
+        "which services have the strongest margin vs which ones the practice does mainly out of goodwill, "
+        "seasonal appointment gaps that could be filled with proactive outreach"
+    ),
+    "Beauty": (
+        "stylists with high client no-show rates that the owner hasn't noticed yet, "
+        "clients who haven't rebooked in 90 days who are almost certainly going to a competitor, "
+        "which retail products move because stylists recommend them vs which just sit on the shelf"
+    ),
+    "Marketing": (
+        "clients who are technically paying but are quietly unhappy and about to leave, "
+        "which service lines have the strongest margin and which ones the agency takes because they need the revenue, "
+        "retainer clients vs project clients — the revenue mix that actually determines agency stability"
+    ),
+    "Law": (
+        "matters that are taking significantly longer than they should — billing efficiency that nobody tracks at the matter level, "
+        "client intake that stalls between first contact and retained — where and why prospects drop off, "
+        "which practice areas have the best realization rate vs which ones attorneys avoid billing accurately"
+    ),
+    "Mortgage": (
+        "leads that go quiet between pre-approval and application — the drop-off nobody measures, "
+        "which referral partners are actually sending closeable deals vs just sending volume, "
+        "pipeline timing patterns — deals that stall at specific stages for predictable reasons"
+    ),
+    "Recruitment": (
+        "roles that get filled but then leave within 90 days — the most expensive failure in recruiting, "
+        "clients who send consistent volume but have a low offer-acceptance rate that nobody flags, "
+        "time-to-fill by role type — where the bottlenecks are and what they cost the agency per day"
+    ),
+    "Financial": (
+        "clients who are technically active but haven't had a meaningful conversation in 6+ months, "
+        "which service tiers are growing and which are quietly declining — and what that means for revenue 12 months out, "
+        "referral patterns — which clients send more clients and how to systematically activate more of them"
+    ),
+    "Real Estate": (
+        "leads who viewed listings but never progressed — what they had in common and whether they can be re-engaged, "
+        "listings that sat too long before a price reduction that was probably predictable from day one, "
+        "which lead sources close at the highest rate vs which ones just inflate pipeline numbers"
+    ),
+    "HVAC": (
+        "service agreement renewals that quietly lapse because nobody flags them before the expiry date, "
+        "seasonal demand spikes where capacity is the bottleneck and how to get ahead of them, "
+        "job margin by type — emergency calls vs installs vs maintenance, and where the real profit is"
+    ),
+    "Bookkeeping": (
+        "clients who take 3x as many hours as they pay for — the profitability problem most bookkeeping firms never measure, "
+        "which service types have the strongest realization rate and which ones are priced wrong, "
+        "capacity planning — most firms hit a ceiling they don't see coming until they're already overloaded"
+    ),
 }
 
 
@@ -489,50 +625,70 @@ def _generate_batched_pitches(leads, category):
         addr = lead[6] or ""
         platform = lead[8] or ""
         campaign_mode = lead[13] or "local"
+        instagram_handle = lead[14] if len(lead) > 14 else None
+        tiktok_handle = lead[15] if len(lead) > 15 else None
+        ad_pixel_platforms = lead[16] if len(lead) > 16 else None
+        payment_processors = lead[17] if len(lead) > 17 else None
+
         detail = f"{name}"
         if addr:
             detail += f" ({addr})"
         if desc:
             detail += f" — {desc[:200]}"
-        if campaign_mode == "ecom" and platform:
-            detail += f" [Platform: {platform}]"
+        if campaign_mode == "ecom":
+            if platform:
+                detail += f" [Platform: {platform}]"
+            if ad_pixel_platforms:
+                detail += f" [Ads: {ad_pixel_platforms}]"
+            if payment_processors:
+                detail += f" [BNPL: {payment_processors}]"
+            if instagram_handle:
+                detail += f" [IG: @{instagram_handle}]"
+            if tiktok_handle:
+                detail += f" [TT: @{tiktok_handle}]"
         business_list += f"{idx+1}. {detail}\n"
 
     niche_hints = NICHE_SCENARIOS.get(
         category, "margin analysis, customer retention mapping, operational efficiency audit"
     )
 
-    prompt = f"""You are a senior data consultant at Dedolytics writing cold outreach emails to {category} business owners.
+    prompt = f"""You are writing short, personal cold emails for Dedolytics — a small business growth consultancy — to {category} business owners.
 
-GOAL: Get a reply. Offer: First project is $0. No commitment.
-TONE: Conversational, expert, like a smart friend — NOT a sales pitch.
-LENGTH: Under 120 words per email.
+WHAT DEDOLYTICS DOES:
+We work with {category} businesses as a growth partner. We figure out exactly where revenue is leaking or where there's untapped margin, and we fix it. The owner doesn't need to understand data — they just need to want results.
 
-NICHE-SPECIFIC ANGLES FOR {category}:
+THE OFFER:
+First month is completely free. No contract, no commitment, no invoice. We do the work. If they see value, we talk about continuing.
+
+{category.upper()} PAIN POINTS — use exactly ONE per email, the one that best fits that specific business:
 {niche_hints}
 
-BUSINESSES:
+BUSINESSES TO EMAIL:
 {business_list}
 
 STRICT RULES:
 1. Return EXACTLY {len(leads)} emails separated by '---END_PITCH---'.
-2. Start each with "Hi [business name]," — use their actual name, never a placeholder.
-3. End each with "— The Dedolytics team" (no other sign-off).
-4. Pick 1-2 of the niche angles above that fit their specific description. Be concrete, not generic.
-5. ZERO bracketed placeholders — not [Your Name], not [City], not [Industry]. Nothing in brackets.
-6. No subject line. Plain text only. No markdown.
-7. If you don't know a specific detail, leave it out — never invent facts.
+2. Start each with "Hi [business name]," — their actual name, never a placeholder.
+3. End each with "— The Dedolytics team".
+4. Body: 2-3 sentences max. Name the ONE specific problem. State the free month offer. Ask "Worth a quick call this week?"
+5. Use plain language — what the owner would say, not consultant jargon.
+6. NEVER mention: "dashboard", "analytics", "data stack", "AI", "machine learning", "KPIs".
+7. ZERO brackets anywhere — not [Your Name], not [City], nothing in square brackets.
+8. No subject line. Plain text. No bullet points. No numbering or labels on the emails themselves.
 
-OUTPUT:
-Email 1
----END_PITCH---
-Email 2
----END_PITCH---
+OUTPUT FORMAT: <email body>---END_PITCH---<email body>---END_PITCH---
 """
     try:
         response = MODEL.generate_content(prompt, request_options={"timeout": 60})
         raw_text = response.text.strip()
-        pitches = [p.strip() for p in raw_text.split("---END_PITCH---") if p.strip()]
+        pitches = []
+        for p in raw_text.split("---END_PITCH---"):
+            p = p.strip()
+            if not p:
+                continue
+            # Strip "Email 1:", "Email 2:", "1.", "1:" etc. that Gemini adds despite instructions
+            p = re.sub(r"^(?:email\s*\d+\s*[:\-]?\s*|\d+[\.\):\-]\s*)", "", p, flags=re.IGNORECASE).strip()
+            pitches.append(p)
         return pitches
     except Exception as e:
         print(f"      [-] Batch generation failed for {category}: {e}")
