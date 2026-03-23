@@ -60,6 +60,17 @@ def run_reply_check():
         logger.error(f"Reply check failed: {e}", exc_info=True)
 
 
+def run_daily_report():
+    logger.info("=" * 55)
+    logger.info("  SCHEDULED TRIGGER: Daily Report (9 PM)")
+    logger.info("=" * 55)
+    try:
+        from daily_report import send_report
+        send_report()
+    except Exception as e:
+        logger.error(f"Daily report failed: {e}", exc_info=True)
+
+
 # ─── Startup ──────────────────────────────────────────────────────────────────
 
 
@@ -105,7 +116,18 @@ if __name__ == "__main__":
         coalesce=True,
     )
 
+    # Daily report at 9 PM Eastern
+    scheduler.add_job(
+        run_daily_report,
+        CronTrigger(hour=21, minute=0, timezone=EASTERN),
+        id="daily_report",
+        name="Daily Report",
+        misfire_grace_time=600,
+        coalesce=True,
+    )
+
     logger.info("Pipeline:     daily at 8:30 AM Eastern")
+    logger.info("Daily report: daily at 9:00 PM Eastern")
     logger.info("Reply check:  every 15 minutes")
     logger.info("Scheduler running. Waiting for next trigger...")
 
