@@ -87,7 +87,8 @@ def send_html_email(
     max_retries = 3
     for attempt in range(max_retries):
         try:
-            server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+            server = smtplib.SMTP("smtp.gmail.com", 587)
+            server.starttls()
             server.login(sender_email, sender_password)
             server.send_message(msg)
             server.quit()
