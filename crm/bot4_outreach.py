@@ -53,10 +53,46 @@ def send_html_email(
     if tracking_id and tracking_base_url and not force_plain_text:
         html_body = _insert_tracking_pixel(html_body, tracking_id, tracking_base_url)
 
-    if not sender_email or not sender_password:
-        print("      [!] Email simulation (Credentials missing)")
+    resend_api_key = os.getenv("RESEND_API_KEY")
+
+    if not resend_api_key and (not sender_email or not sender_password):
+        print("      [!] Email simulation (no credentials or Resend key)")
         return {"success": True, "simulated": True}
 
+    # ── Resend HTTPS API (primary path — Railway blocks outbound SMTP ports) ──
+    if resend_api_key:
+        try:
+            import resend as resend_lib
+            resend_lib.api_key = resend_api_key
+
+            params: resend_lib.Emails.SendParams = {
+                "from": f"{sender_name} <{sender_email}>",
+                "to": [to_address],
+                "bcc": ["hello@dedolytics.org"],
+                "subject": subject,
+                "reply_to": "hello@dedolytics.org",
+                "headers": {
+                    "List-Unsubscribe": "<mailto:hello@dedolytics.org?subject=Unsubscribe>",
+                    "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+                },
+            }
+            if force_plain_text:
+                params["text"] = html_body
+            else:
+                params["html"] = html_body
+
+            resend_lib.Emails.send(params)
+            return {"success": True}
+
+        except Exception as e:
+            err = str(e)
+            print(f"      [-] Resend failed for {to_address}: {err}")
+            # Map Resend bounce-like errors to bounce statuses
+            if "invalid_to" in err.lower() or "not found" in err.lower():
+                return {"success": False, "bounce_status": "hard_bounce", "bounce_message": err}
+            return {"success": False, "bounce_status": None, "bounce_message": err}
+
+    # ── SMTP fallback (local development only — blocked on Railway) ──────────
     def _build_message():
         msg = EmailMessage()
         if force_plain_text:
@@ -69,7 +105,6 @@ def send_html_email(
             plain_text = "\n\n".join(line.strip() for line in soup.get_text(separator="\n").splitlines() if line.strip())
             msg.set_content(plain_text)
             msg.add_alternative(html_body, subtype="html")
-
         msg["Subject"] = subject
         msg["From"] = f"{sender_name} <{sender_email}>"
         msg["To"] = to_address
