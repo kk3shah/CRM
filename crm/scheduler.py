@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """
-Dedolytics Railway Scheduler
+Dedolytics Scheduler
 
-Single entrypoint for the Railway worker service.
+Single entrypoint — run locally: python crm/scheduler.py
 - Daily pipeline: 8:30 AM Eastern every day (DST-aware via APScheduler + pytz)
-- Reply checker: every 15 minutes
+- Daily report:   9:00 PM Eastern every day
+- Reply checker:  every 15 minutes
 - On startup: seeds DB with previously-emailed addresses, runs an immediate reply check
 
-Set RUN_NOW=true in Railway env vars to also trigger the pipeline immediately on startup
-(useful for today's manual run without waiting for 8:30 AM).
+Set RUN_NOW=true in env to trigger the pipeline immediately on startup.
 """
 
 import os

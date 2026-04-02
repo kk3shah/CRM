@@ -438,28 +438,8 @@ def send_report():
         print("[DRY RUN] Would send to:", RECIPIENT_EMAIL)
         return
 
-    resend_api_key = os.getenv("RESEND_API_KEY")
-
-    if resend_api_key:
-        # ── Resend HTTPS API (primary — Railway blocks outbound SMTP) ──────────
-        try:
-            import resend as resend_lib
-            resend_lib.api_key = resend_api_key
-            params: resend_lib.Emails.SendParams = {
-                "from": f"Dedolytics System <{SENDER_EMAIL}>",
-                "to": [RECIPIENT_EMAIL],
-                "subject": subject,
-                "html": html_body,
-            }
-            resend_lib.Emails.send(params)
-            print("[+] Report sent successfully via Resend.")
-        except Exception as e:
-            print(f"[-] Resend failed for daily report: {e}")
-        return
-
-    # ── SMTP fallback (local dev only) ───────────────────────────────────────
     if not SENDER_EMAIL or not SENDER_PASS:
-        print("[-] No RESEND_API_KEY and no SMTP credentials. Cannot send report.")
+        print("[-] Email credentials not found. Cannot send report.")
         return
 
     try:
